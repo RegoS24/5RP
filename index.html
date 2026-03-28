@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="script.js"></script>
+    <title>Bonus Point</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+
+    <button id="themeToggle">🌙</button>
+
+    <div class="layout-with-background">
+        <div class="background-overlay"></div> <!-- Слой затемнения -->
+        <div class="header-left">
+            <h1>Bonus Point</h1>
+        </div>
+        <div class="header-right">
+            <!-- VIP чекбокс -->
+             <label class="custom-checkbox">
+                <input type="checkbox" id="vipCheckbox">
+                <span class="checkmark"></span>
+                <span class="small">Platinum VIP</span>
+            </label>
+
+            <!-- X2 чекбокс -->
+             <label class="custom-checkbox">
+                <input type="checkbox" id="x2Checkbox">
+                <span class="checkmark"></span>
+                <span class="small">X2</span>
+            </label>
+        </div>
+    </div>
+
+    <br>
+
+    <div class="controls">
+        <div class="total">
+            <div class="left">Получено: <span id="totalDisplay">0 BP</span></div>
+        </div>
+        <button id="resetBtn">Сбросить все</button>
+    </div>
+
+    <div class="grid" id="tasksGrid">
+      <div class="column easy-col">
+        <h2>Задания:</h2>
+        <table aria-label=" " class="tasks-column">
+          <tbody>
+            <tr>
+                <td>
+                    <label class="custom-checkbox"><input type="checkbox" id="cb0"><span class="checkmark"></span>Лотерея</label></td>
+                    <td class="reward" data-with="2" data-without="1">1 BP</td>
+            </tr>
+            <tr>
+                <td>
+                    <label class="custom-checkbox"><input type="checkbox" id="cb0"><span class="checkmark"></span>Лотерея</label></td>
+                    <td class="reward" data-with="2" data-without="1">1 BP</td>
+            </tr>
+            <tr>
+                <td>
+                    <label class="custom-checkbox"><input type="checkbox" id="cb0"><span class="checkmark"></span>Лотерея</label></td>
+                    <td class="reward" data-with="2" data-without="1">1 BP</td>
+            </tr>
+            <tr>
+                <td>
+                    <label class="custom-checkbox"><input type="checkbox" id="cb0"><span class="checkmark"></span>Лотерея</label></td>
+                    <td class="reward" data-with="2" data-without="1">1 BP</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+  </body>
+</html>
