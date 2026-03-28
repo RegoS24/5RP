@@ -1,9 +1,7 @@
-document.addEventListener('DOMContentLoaded', function() {
-  // Элементы DOM
+// Элементы DOM
   const vipCheckbox = document.getElementById('vipCheckbox');
   const x2Checkbox = document.getElementById('x2Checkbox');
   const totalDisplay = document.getElementById('totalDisplay');
-  const remainingDisplay = document.getElementById('remainingDisplay');
   const resetBtn = document.getElementById('resetBtn');
   const checkboxes = document.querySelectorAll('.tasks-column input[type="checkbox"]');
   const themeToggle = document.getElementById('themeToggle');
@@ -13,27 +11,22 @@ document.addEventListener('DOMContentLoaded', function() {
   // Устанавливаем сохранённую или светлую тему при загрузке
   if (currentTheme === 'dark') {
     document.documentElement.setAttribute('data-theme', 'dark');
-    themeToggle.textContent = '☀️';
+    themeToggle.textContent = ' ';
   } else {
     document.documentElement.setAttribute('data-theme', 'light');
-    themeToggle.textContent = '🌙';
+    themeToggle.textContent = ' ';
   }
 
   // Обработчик переключения темы
   themeToggle.addEventListener('click', function() {
-    const currentTheme = document.documentElement.getAttribute('data-theme');
-
-    if (currentTheme === 'dark') {
-      // Переключаем на светлую
-      document.documentElement.setAttribute('data-theme', 'light');
-      themeToggle.textContent = '🌙';
-      localStorage.setItem('theme', 'light');
-    } else {
-      // Переключаем на тёмную
-      document.documentElement.setAttribute('data-theme', 'dark');
-      themeToggle.textContent = '☀️';
-      localStorage.setItem('theme', 'dark');
-    }
+  const currentTheme = document.documentElement.getAttribute('data-theme');
+  if (currentTheme === 'dark') {
+    document.documentElement.setAttribute('data-theme', 'light');
+    localStorage.setItem('theme', 'light');
+  } else {
+    document.documentElement.setAttribute('data-theme', 'dark');
+    localStorage.setItem('theme', 'dark');
+  }
   });
 
   // Функция обновления наград в таблице
@@ -112,4 +105,3 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // Инициализация — первое обновление
   updateRewards();
-});

@@ -1,18 +1,19 @@
 /* Базовые переменные для светлой темы */
 :root {
   --bg-color: #f3f3f3;
-  --text-color: #1a1a1a;
-  --header-color: #1a1a1a;
+  --text-color: #2b2b2b;
+  --header-color: #2b2b2b;
   --table-bg: #f8f9fa;
   --table-border: #dee2e6;
   --button-bg: #ff0000;
   --button-text: white;
-  --checkbox-border: #cccccc;
-  --checkbox-checked: #0fb900;
-  --theme-btn-bg: #6c757d;
+  --checkbox-border: #f3f3f3;
+  --checkbox-checked: #f3bc07;
+  --theme-btn-bg: #2b2b2b;
   --theme-btn-text: white;
   --theme-btn-hover: #545b62;
   --row-radius: 8px; /* Переменная для радиуса закругления строк */
+  --background-overlay-color: rgba(255, 255, 255, 0.795); /* Белый свет для светлой темы */
 }
 
 /* Переменные для тёмной темы */
@@ -21,14 +22,32 @@
   --text-color: #f3f3f3;
   --header-color: #f3f3f3;
   --table-bg: #2b2b2b;
-  --table-border: #55555;
+  --table-border: #555555;
   --button-bg: #ff0000;
   --button-text: #ffffff;
   --checkbox-border: #b8b8b8;
-  --checkbox-checked: #0fb900;
-  --theme-btn-bg: #6c757d;
+  --checkbox-checked: #f3bc07;
+  --theme-btn-bg: #7a7a7a;
   --theme-btn-text: white;
-  --theme-btn-hover: #545b62;
+  --theme-btn-hover: #666666;
+  --background-overlay-color: rgba(0, 0, 0, 0.795); /* Чёрный свет для тёмной темы */
+}
+
+.logo-toggle {
+  background-image: url('akso.png'); /* Путь к логотипу */
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  border: none;
+  width: 200px;
+  height: 200px;
+  cursor: pointer;
+  padding: 0;
+}
+
+[data-theme="dark"] .logo-toggle {
+  /* Альтернативный логотип для тёмной темы (если нужен) */
+  /* background-image: url('logo-light.svg'); */
 }
 
 /* Основные стили*/
@@ -36,10 +55,28 @@ body {
   font-family: Arial, sans-serif;
   font-size: 14px;
   color: var(--text-color);
-  background-color: var(--bg-color);
+  background-image: url('game-bg.jpg');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
   margin: 0;
   padding: 20px;
   transition: all 0.3s ease;
+  position: relative; /* Для корректной работы ::before */
+}
+
+/* Полупрозрачный слой поверх фона с переменной непрозрачностью */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--background-overlay-color);
+  z-index: -1;
+  transition: background-color 0.3s ease;
 }
 
 h1 {
@@ -66,7 +103,7 @@ h2 {
   margin: 0; /* Убираем стандартные отступы у h1 */
   color: white; /* Белый текст для контраста */
   font-size: 24px;
-  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7); /* Тень для читаемости */
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.9); /* Тень для читаемости Bonus point */
 }
 
 .header-right {
@@ -76,19 +113,29 @@ h2 {
   margin: 0; /* Убираем стандартные отступы у h1 */
   color: white; /* Белый текст для контраста */
   font-size: 18px;
-  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7); /* Тень для читаемости */
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.9); /* Тень для читаемости VIP X2 */
 }
 
 /* Стили для отображения общего количества BP */
+
+.remaining {
+  font-size: 16px;
+  color: var(--text-color);
+  opacity: 0.8;
+}
+
 .total {
-  font-size: 18px; /* Размер шрифта ПОЛУЧЕНО*/
+  font-size: 18px; /* Размер шрифта ПОЛУЧЕНО */
   font-weight: bold;
   color: var(--text-color);
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2); /* Тень для читаемости */
 }
 
 #totalDisplay {
   font-size: 20px;
   font-weight: bold;
+  color: var(--text-color);
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2); /* Тень для читаемости */
 }
 
 /* Светлая тема */
@@ -96,6 +143,7 @@ h2 {
   font-size: 20px;
   font-weight: bold;
   color: #1f1f1f;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2); /* Тень для читаемости */
 }
 
 /* Тёмная тема */
@@ -103,10 +151,11 @@ h2 {
   font-size: 20px;
   font-weight: bold;
   color: #e0e0e0; /* Почти белый текст */
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2); /* Тень для читаемости */
 }
 
 /* Стили кнопок */
-#resetBtn, #fractionToggle, #themeToggle {
+#resetBtn, #fractionToggle {
   background-color: var(--button-bg);
   color: var(--button-text);
   border: none;
@@ -116,25 +165,49 @@ h2 {
   cursor: pointer;
   transition: background-color 0.3s;
   font-size: 16px;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2); /* Тень для читаемости */
 }
 
-#resetBtn:hover, #fractionToggle:hover, #themeToggle:hover {
+#themeToggle {
+  background-color: #ffffff00;
+  color: #ffffff00;
+  border: none;
+  padding: 8px 16px;
+  margin: 5px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  font-size: 16px;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2); /* Тень для читаемости */
+}
+
+#resetBtn:hover, #fractionToggle:hover {
   background-color: var(--theme-btn-hover);
   transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-#resetBtn:active, #fractionToggle:active, #themeToggle:active {
+#themeToggle:hover {
+  background-color: #ffffff00;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0);
+}
+
+#resetBtn:active, #fractionToggle:active {
+  transform: translateY(0);
+}
+
+#themeToggle:active {
   transform: translateY(0);
 }
 
 /* Тёмная тема: меняем цвет кнопки */
 [data-theme="dark"] #themeToggle {
-  background-color: #3b3d3f; /* Тёмно‑серый для тёмной темы */
+  background-color: #3b3d3f00; /* Тёмно‑серый для тёмной темы */
 }
 
 [data-theme="dark"] #themeToggle:hover {
-  background-color: #343a40; /* Ещё темнее при наведении в тёмной теме */
+  background-color: #343a4000; /* Ещё темнее при наведении в тёмной теме */
 }
 
 /* Стили сетки и колонок */
@@ -162,24 +235,6 @@ td, th {
   text-align: center;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-.done {
-  background-color: #b4cfba;
-}
-
 .small {
   font-size: 0.9em;
   margin-left: 5px;
@@ -199,11 +254,13 @@ td, th {
 
 /* Таблица заданий */
 .tasks-column {
-  background-color: var(--table-bg);
+  background-color: #7a7a7a69;
   border: 1px solid var(--table-border);
   color: var(--text-color);
   border-radius: var(--row-radius);
   overflow: hidden;
+  font-weight: bold;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2); /* Тень для читаемости */
 }
 
 .tasks-column th,
@@ -242,6 +299,7 @@ td, th {
   font-weight: bold;
   font-size: 16px;
   text-align: center;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2); /* Тень для читаемости */
 }
 
 /* Активная область клика */
@@ -272,6 +330,7 @@ td, th {
   cursor: pointer;
   position: relative;
   transition: all 0.3s ease;
+  box-shadow: 0 1.1px 3px rgba(131, 131, 131, 0.9); /* Тень */
 }
 
 /* Стиль при наведении */
@@ -294,6 +353,7 @@ td, th {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7); /* Тень для читаемости */
 }
 
 /* Стили для отмеченных заданий */
@@ -336,15 +396,6 @@ td:not(.checkbox-cell) label {
   cursor: pointer;
   display: block;
   padding: 8px 12px;
-}
-
-td:not(.checkbox-cell) label:hover {
-  background-color: rgba(0, 0, 0, 0.03);
-  border-radius: 4px;
-}
-
-[data-theme="dark"] td:not(.checkbox-cell) label:hover {
-  background-color: rgba(255, 255, 255, 0.05);
 }
 
 /* Фон с overlay */
@@ -408,3 +459,4 @@ td:not(.checkbox-cell) label:hover {
 * {
   transition: all 0.3s ease;
 }
+
