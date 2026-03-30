@@ -1,3 +1,13 @@
+* {
+  user-select: none;
+}
+
+/* Для поддержки старых браузеров */
+* {
+  -webkit-user-select: none; /* Chrome/Safari/Opera */
+  -moz-user-select: none;    /* Firefox */
+  -ms-user-select: none;     /* Internet Explorer/Edge */
+}
 /* Базовые переменные для светлой темы */
 :root {
   --checkbox-size: 22px;
@@ -355,7 +365,7 @@ body::before {
 
 /* Стили для выполненных заданий */
 .completed {
-  background-color: #f3bc074f !important;
+  background-color: #f3bc072c !important;
   transition: background-color 0.3s ease !important;
 }
 
@@ -511,12 +521,12 @@ body::before {
   }
   
   .tasks-column td {
-    padding: 10px 10px;
+    padding: 8px 10px;
     font-size: 12px;
   }
   
   .lottery-controls {
-    padding: 10px 10px;
+    padding: 4px 8px;
     gap: 6px;
   }
   
@@ -533,16 +543,9 @@ body::before {
     gap: 8px;
   }
   
-  .custom-checkbox,
   .checkmark {
-    width: 18px;
-    height: 18px;
-  }
-  .custom-checkbox input:checked + .checkmark::after {
-    width: 7px;
-    height: 12px;
-    left: 5px;
-    top: 1px;
+    width: 16px;
+    height: 16px;
   }
 }
 
@@ -600,18 +603,6 @@ body::before {
     opacity: 1;
   }
 }
-
-.custom-checkbox,
-  .checkmark {
-    width: 16px;
-    height: 16px;
-  }
-  .custom-checkbox input:checked + .checkmark::after {
-    width: 6px;
-    height: 10px;
-    left: 4px;
-    top: 0px;
-  }
 
 /* Плавное появление контейнера */
 .container {
