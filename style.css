@@ -10,7 +10,7 @@
 }
 /* Базовые переменные для светлой темы */
 :root {
-  --checkbox-size: 22px;
+  --checkbox-size: 28px;
   --lottery-btn-size: 28px;
   --lottery-quantity-min-width: 35px;
   --bg-color: #f3f3f3;
@@ -93,23 +93,41 @@ body::before {
   box-sizing: border-box;
 }
 
+.background-overlay {
+  position: absolute; /* Выносим из потока, чтобы не влиять на расположение других элементов */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--background-overlay-color); /* Используем переменную из темы */
+  z-index: -1; /* Помещаем под остальными элементами */
+  pointer-events: none; /* Отключаем взаимодействие с мышью */
+}
+
 /* Стили для заголовка */
 .layout-with-background {
+  white-space: nowrap;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 15px 20px;
   background-color: var(--table-bg);
   border-bottom: 1px solid var(--table-border);
   border-radius: 0 0 8px 8px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .header-left h1 {
-  margin: 0;
+  position: relative;
+  margin: 0 auto;
   color: var(--header-color);
   font-size: 24px;
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+  display: block;
+  width: 100%;
+  text-align: center; /* Выравнивание текста по центру внутри элемента */
+  box-sizing: border-box
 }
 
 .header-right {
@@ -118,6 +136,11 @@ body::before {
   gap: 20px;
   color: var(--header-color);
   font-size: 18px;
+}
+
+#themeToggle {
+  flex-shrink: 0; /* Не сжимаем кнопку */
+  margin-left: 15px; /* Отступ слева */
 }
 
 /* Стили для счётчиков — одна линия, выравнивание по краям */
@@ -192,13 +215,11 @@ body::before {
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
-  width: 100%;
-  min-height: 400px; /* Минимальная высота для корректного расчёта */
 }
 
 .column {
-  flex: 1;
-  min-width: 300px;
+  flex: 0 1 auto;
+  width: 100%;
   display: flex;
   flex-direction: column;
 }
@@ -248,9 +269,23 @@ body::before {
   border-radius: 0 0 12px 12px;
   background-color: var(--table-bgd);
   border-collapse: collapse;
-  table-layout: fixed;
+  table-layout: auto;
   margin: 0;
   border: none; /* Убираем внешние границы таблицы */
+}
+
+.tasks-column .status-col {
+  width: min-content; /* Чекбокс — минимальная ширина */
+}
+
+.tasks-column .task-col {
+  width: 1fr; /* Текст задания — занимает остальное */
+}
+
+.tasks-column .lottery-col,
+.tasks-column .reward-col {
+  width: max-content; /* По содержимому */
+  white-space: nowrap;
 }
 
 /* Нижний левый угол */
@@ -265,9 +300,10 @@ body::before {
 
 .tasks-column th,
 .tasks-column td {
-  padding: 12px 15px;
-  text-align: left;
+  text-align: center;
   border-bottom: 1px solid var(--table-border);
+  vertical-align: middle;
+  height: 100%;
 }
 
 .tasks-column thead th {
@@ -297,10 +333,12 @@ body::before {
 .custom-checkbox {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 0; /* Ключевое: убираем отступы */
-  margin: 0;
-  cursor: pointer; /* Курсор по умолчанию */
+  justify-content: center;
+  gap: 12px;
+  padding: 8px 12px;
+  cursor: pointer;
+  width: 100%;
+  white-space: nowrap;
 }
 
 /* Сам чекбокс — зона клика только здесь */
@@ -308,10 +346,14 @@ body::before {
   cursor: pointer;
   transform: scale(1.4);
   margin: 0;
-  opacity: 0; /* Скрываем стандартный */
-  position: absolute;
-  width: 1px;
-  height: 1px;
+  opacity: 0;
+  width: 0px;
+  height: 0px;
+}
+
+.status-cell {
+  text-align: center;
+  vertical-align: middle;
 }
 
 .custom-checkbox input[type="checkbox"] {
@@ -384,10 +426,15 @@ body::before {
 /* Стили для .task-item — зона клика для чекбокса */
 .task-item {
   cursor: pointer;
-  padding: 8px 12px;
   border-radius: 4px;
   transition: all 0.2s ease;
   position: relative;
+  text-align: center;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
 }
 
 /* Убираем hover‑эффект для выполненных заданий */
@@ -399,10 +446,20 @@ body::before {
 
 /* Блок управления лотереей */
 .lottery-controls {
-  display: flex;
+  display: inline-flex;
+  justify-content: center;
   align-items: center;
   gap: 8px;
-  margin-left: auto;
+  margin: 0 auto;
+  width: auto;
+  flex-wrap: nowrap;
+  white-space: nowrap;
+}
+
+.lottery-cell {
+  white-space: nowrap;
+  text-align: center;
+  vertical-align: middle;
 }
 
 .arrow-btn {
@@ -419,6 +476,7 @@ body::before {
   align-items: center;
   justify-content: center;
   padding: 0;
+  flex-shrink: 0;
 }
 
 .arrow-btn:hover {
@@ -431,6 +489,7 @@ body::before {
 }
 
 .quantity-display {
+  flex-shrink: 0;
   min-width: var(--lottery-quantity-min-width);
   font-size: 14px;
   text-align: center;
@@ -502,241 +561,198 @@ body::before {
 
 /* Награды */
 .reward {
+  text-align: center;
+  vertical-align: middle;
   font-weight: bold;
   color: var(--reward-color);
 }
 
-/* Адаптивность */
-@media (max-width: 768px) {
-
+@media (max-width: 480px) {
   :root {
-    --checkbox-size: 18px;
-    --lottery-btn-size: 24px;
-    --lottery-quantity-min-width: 25px;
+    --checkbox-size: 24px;
+    --lottery-btn-size: 28px;
+    --lottery-quantity-min-width: 30px;
+  }
+
+  /* Контейнер — убираем боковые отступы для полного заполнения экрана */
+  .container {
+    padding: 0 8px; /* Безопасные зоны по краям */
+    max-width: none; /* Занимает всю ширину */
+  }
+
+  /* Заголовок — упрощаем компоновку */
+  .layout-with-background {
+    flex-direction: column; /* На мобильных — вертикальное расположение */
+    align-items: center;   /* Центрируем элементы по горизонтали */
+    text-align: center;    /* Гарантируем выравнивание текста по центру */
+    padding: 8px;
+  }
+
+  .header-left h1 {
+    .header-left h1 {
+    font-size: 20px; /* Уменьшаем шрифт для компактности */
+    padding: 0 10px; /* Отступы по бокам для читаемости */
+    box-sizing: border-box;
   }
 
   .header-right {
-    gap: 10px;
-    font-size: 16px;
-  }
-  
-  .tasks-column td {
-    padding: 8px 10px;
-    font-size: 12px;
-  }
-  
-  .lottery-controls {
-    padding: 4px 8px;
-    gap: 6px;
-  }
-  
-  .arrow-btn {
-    font-size: 10px;
-  }
-
-  .quantity-display {
-    min-width: 25px;
-    font-size: 12px;
-  }
-
-  .custom-checkbox {
+    width: 100%;
+    justify-content: space-between; /* Равномерное распределение */
+    font-size: 14px;
     gap: 8px;
   }
-  
-  .checkmark {
-    width: 16px;
-    height: 16px;
-  }
-}
 
-@media (max-width: 480px) {
-
-  :root {
-    --checkbox-size: 18px;
-    --lottery-btn-size: 18px;
-    --lottery-quantity-min-width: 25px;
-  }
-
-  .container {
-    padding: 0 5px;
-  }
-  
-  .tasks-column td {
-    padding: 6px 8px;
-    font-size: 12px;
-  }
-
-  .arrow-btn {
-    font-size: 10px;
-  }
-  .quantity-display {
-    font-size: 12px;
-  }
-  
-  .progress-bar {
-    height: 16px;
-  }
-  
+  /* Счётчики — делаем вертикальным стеком */
   .total {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 12px 15px;
     font-size: 16px;
   }
-  
+
   #totalDisplay, #remainingDisplay {
     font-size: 18px;
-  }
-}
-
-/* Анимации для элементов */
-@keyframes fadeIn {
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes scaleIn {
-  from {
-    transform: scale(0.8);
-    opacity: 0;
-  }
-  to {
-    transform: scale(1);
-    opacity: 1;
-  }
-}
-
-/* Плавное появление контейнера */
-.container {
-  opacity: 0;
-  animation: fadeIn 0.5s forwards;
-}
-
-/* Анимация для новых заданий */
-.task-row {
-  animation: scaleIn 0.3s forwards;
-}
-
-/* Стили для состояний загрузки */
-.loading::after {
-  content: '...';
-  animation: dots 1.5s steps(4, end) infinite;
-}
-
-@keyframes dots {
-  0%, 20% { content: ' '; }
-  25%, 60% { content: '.'; }
-  65%, 80% { content: '..'; }
-  85%, 100% { content: '...'; }
-}
-
-/* Оптимизация для печати */
-@media print {
-  body::before {
-    display: none;
-  }
-  
-  .header-right,
-  .progress-container,
-  .lottery-controls,
-  .status-cell {
-    display: none;
-  }
-  
-  body {
-    background: white;
-    color: black;
-  }
-  
-  .tasks-column {
-    border: 1px solid black;
-    width: 100%;
-  }
-  
-  .tasks-column th,
-  .tasks-column td {
-    border: 1px solid black;
-    padding: 8px;
-    font-size: 12pt;
-  }
-  
-  .reward {
-    font-weight: bold;
-    color: black;
-  }
-  
-  #totalDisplay, #remainingDisplay {
-    color: black;
-  }
-  
-  h1 {
-    font-size: 16pt;
-  }
-  
-  .total {
-    font-size: 14pt;
-    margin-bottom: 15px;
-  }
-}
-
-/* Улучшенная адаптивность для очень маленьких экранов */
-@media (max-width: 320px) {
-
-  :root {
-    --checkbox-size: 16px;
-    --lottery-btn-size: 16px;
-    --lottery-quantity-min-width: 20px;
+    text-align: left;
+    min-width: auto;
   }
 
-  .container {
-    padding: 0 5px;
-  }
-  
-  .tasks-column td {
-    padding: 6px 8px;
-    font-size: 11px;
-  }
-  
-  .quantity-display {
-    min-width: 20px;
-    font-size: 10px;
-  }
-  
-  .arrow-btn {
-    width: 20px;
-    height: 20px;
-    font-size: 9px;
-  }
-  
-  .quantity-display {
-    font-size: 11px;
-  }
-
-  .total {
-    font-size: 13px;
-  }
-  
-  #totalDisplay, #remainingDisplay {
-    font-size: 15px;
+  /* Прогресс‑бар — уменьшаем высоту */
+  .progress-container {
+    margin: 15px 0;
   }
 
   .progress-bar {
     height: 14px;
+    border-radius: 7px;
   }
 
   .progress-text {
-    font-size: 11px;
-  }
-  
-  .header-left h1 {
-    font-size: 18px;
-  }
-  
-  .header-right {
     font-size: 12px;
-    gap: 5px;
   }
-  
-  .small {
+
+  /* Таблица заданий — оптимизируем */
+  .grid {
+    flex-direction: column;
+    gap: 12px;
+    min-height: 0px;
+  }
+
+  .column {
+    width: 100%;
+    flex: none;
+  }
+
+  .tasks-container {
+    height: 35px; /* Высота для контента */
+    border-radius: 8px 8px 0 0; /* Скругляем все углы */
+  }
+
+  .table-header {
+    padding: 12px 15px;
     font-size: 11px;
+    height: auto;
+    text-align: center;
+  }
+
+  .tasks-column {
+    width: 100%;
+    border-radius: 0 0 8px 8px;
+    table-layout: fixed;
+    margin: 0;
+    border: none;
+  }
+
+  .tasks-column th,
+  .tasks-column td {
+    width: auto;
+    white-space: nowrap;
+    text-align: center;
+    font-size: 13px;
+  }
+
+  .tasks-column thead th {
+    font-size: 11px;
+  }
+
+  /* Чекбоксы — увеличиваем зону клика */
+  .custom-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 5px; /* Компактное расположение чекбокса и текста */
+  }
+
+  .custom-checkbox .checkmark {
+    width: 16px;
+    height: 16px; /* Уменьшаем размер чекбокса */
+  }
+
+  .custom-checkbox input {
+    width: 16px;
+    height: 16px; /* Корректируем размер самого чекбокса */
+  }
+
+  .checkmark {
+    width: var(--checkbox-size);
+    height: var(--checkbox-size);
+  }
+
+  .custom-checkbox input[type="checkbox"]:checked + .checkmark::after {
+    font-size: 20px; /* Галочка крупнее */
+  }
+
+  /* Лотерея — перестраиваем в строку */
+  .lottery-controls {
+    flex-wrap: nowrap;
+    justify-content: center;
+    gap: 6px;
+    margin-left: 0;
+    width: 100%;
+  }
+
+  .arrow-btn {
+    width: 24px;
+    height: 24px;
+    margin: 2px 0;
+    font-size: 12px;
+    border-radius: 6px;
+  }
+
+  .quantity-display {
+    min-width: var(--lottery-quantity-min-width);
+    font-size: 14px;
+  }
+
+  /* Кнопка сброса — делаем шире */
+  #resetBtn {
+    width: 100%;
+    padding: 12px 20px;
+    font-size: 14px;
+    margin: 15px auto 0;
+  }
+
+  /* Награды — улучшаем читаемость */
+  .reward {
+    font-weight: bold;
+    color: var(--reward-color);
+    font-size: 13px;
+  }
+
+  /* Анимации — упрощаем для производительности */
+  @keyframes scaleIn {
+    from {
+      transform: scale(0.9);
+      opacity: 0;
+    }
+    to {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+
+  /* Убираем сложные тени для экономии ресурсов */
+  .tasks-column tbody tr:not(.done):hover {
+    background-color: transparent; /* Отключаем hover для таблицы */
   }
 }
 
