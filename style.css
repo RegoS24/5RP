@@ -511,12 +511,12 @@ body::before {
   }
   
   .tasks-column td {
-    padding: 8px 10px;
+    padding: 10px 10px;
     font-size: 12px;
   }
   
   .lottery-controls {
-    padding: 4px 8px;
+    padding: 10px 10px;
     gap: 6px;
   }
   
