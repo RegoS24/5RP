@@ -1,19 +1,27 @@
 /* Базовые переменные для светлой темы */
 :root {
+  --checkbox-size: 22px;
+  --lottery-btn-size: 28px;
+  --lottery-quantity-min-width: 35px;
   --bg-color: #f3f3f3;
   --text-color: #2b2b2b;
   --header-color: #2b2b2b;
-  --table-bg: #f8f9fa;
+  --table-bg: #f8f9fa6b;
+  --table-bgd: #f3bc0710;
   --table-border: #dee2e6;
-  --button-bg: #ff0000;
-  --button-text: white;
-  --checkbox-border: #f3f3f3;
+  --button-bg: transparent;
+  --button-text: #2b2b2b;
+  --checkbox-border: #adb5bd;
   --checkbox-checked: #f3bc07;
   --theme-btn-bg: #2b2b2b;
-  --theme-btn-text: white;
+  --theme-btn-text: #ffffff;
   --theme-btn-hover: #545b62;
-  --row-radius: 8px; /* Переменная для радиуса закругления строк */
-  --background-overlay-color: rgba(255, 255, 255, 0.795); /* Белый свет для светлой темы */
+  --background-overlay-color: rgba(255, 255, 255, 0.795);
+  --progress-bg: #e9ecef;
+  --progress-fill-gradient: linear-gradient(90deg, #f3bc07, #d4a006);
+  --progress-high-color: #f3bc07;
+  --reward-color: #2b2b2b;
+  --quantity-display: #2b2b2b;
 }
 
 /* Переменные для тёмной темы */
@@ -21,40 +29,29 @@
   --bg-color: #1d1d1d;
   --text-color: #f3f3f3;
   --header-color: #f3f3f3;
-  --table-bg: #2b2b2b;
+  --table-bg: #2b2b2b96;
+  --table-bgd: #f3bc0705;
   --table-border: #555555;
-  --button-bg: #ff0000;
+  --button-bg: transparent;
   --button-text: #ffffff;
   --checkbox-border: #b8b8b8;
   --checkbox-checked: #f3bc07;
   --theme-btn-bg: #7a7a7a;
   --theme-btn-text: white;
   --theme-btn-hover: #666666;
-  --background-overlay-color: rgba(0, 0, 0, 0.795); /* Чёрный свет для тёмной темы */
+  --background-overlay-color: rgba(0, 0, 0, 0.795);
+  --progress-bg: #495057;
+  --progress-fill-gradient: linear-gradient(90deg, #f3bc07, #e0b005);
+  --progress-high-color: #ffd166;
+  --reward-color: #f3f3f3;
+  --quantity-display: #f3f3f3;
 }
 
-.logo-toggle {
-  background-image: url('akso.png'); /* Путь к логотипу */
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
-  border: none;
-  width: 200px;
-  height: 200px;
-  cursor: pointer;
-  padding: 0;
-}
-
-[data-theme="dark"] .logo-toggle {
-  /* Альтернативный логотип для тёмной темы (если нужен) */
-  /* background-image: url('logo-light.svg'); */
-}
-
-/* Основные стили*/
 body {
   font-family: Arial, sans-serif;
   font-size: 14px;
   color: var(--text-color);
+  background-color: var(--bg-color);
   background-image: url('game-bg.jpg');
   background-size: cover;
   background-position: center;
@@ -78,385 +75,698 @@ body::before {
   z-index: -1;
   transition: background-color 0.3s ease;
 }
-
-h1 {
-  color: var(--header-color);
-  margin-top: 0;
+.container {
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 15px;
+  box-sizing: border-box;
 }
 
-h2 {
-  color: var(--header-color);
-  margin-top: 0;
-}
-
-/* Стили для заголовка и чекбоксов */
-.layout {
+/* Стили для заголовка */
+.layout-with-background {
   display: flex;
-  justify-content: space-between; /* Разделяет элементы по краям */
-  align-items: center; /* Выравнивает элементы по вертикали */
+  justify-content: space-between;
+  align-items: center;
   padding: 15px 20px;
-  background-color: var(--table-bg); /* Используем цвет фона из темы */
-  border-bottom: 1px solid var(--table-border); /* Тонкая линия-разделитель */
+  background-color: var(--table-bg);
+  border-bottom: 1px solid var(--table-border);
+  border-radius: 0 0 8px 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .header-left h1 {
-  margin: 0; /* Убираем стандартные отступы у h1 */
-  color: white; /* Белый текст для контраста */
+  margin: 0;
+  color: var(--header-color);
   font-size: 24px;
-  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.9); /* Тень для читаемости Bonus point */
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
 }
 
 .header-right {
   display: flex;
   align-items: center;
-  gap: 20px; /* Расстояние между чекбоксами */
-  margin: 0; /* Убираем стандартные отступы у h1 */
-  color: white; /* Белый текст для контраста */
+  gap: 20px;
+  color: var(--header-color);
   font-size: 18px;
-  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.9); /* Тень для читаемости VIP X2 */
 }
 
-/* Стили для отображения общего количества BP */
-
-.remaining {
-  font-size: 16px;
-  color: var(--text-color);
-  opacity: 0.8;
-}
-
+/* Стили для счётчиков — одна линия, выравнивание по краям */
 .total {
-  font-size: 18px; /* Размер шрифта ПОЛУЧЕНО */
+  display: flex;
+  justify-content: space-between; /* Равномерное распределение с отступами по краям */
+  align-items: center; /* Вертикальное выравнивание по центру */
+  font-size: 18px;
   font-weight: bold;
+  margin-bottom: 15px;
+  padding: 10px 15px; /* Отступы внутри контейнера */
+  background-color: var(--table-bg); /* Фон как у таблицы */
+  border-radius: 8px; /* Скруглённые углы */
+  border: 1px solid var(--table-border); /* Граница */
+}
+
+#totalDisplay, #remainingDisplay {
+  font-size: 20px;
+  font-weight: bold;
+  color: var(--checkbox-checked);
+  min-width: 60px; /* Минимальная ширина для выравнивания */
+  text-align: right; /* Текст справа для единообразия */
+}
+
+/* Тёмная тема: адаптация стилей */
+[data-theme="dark"] .total {
+  background-color: var(--table-bg);
+  border-color: var(--table-border);
+}
+
+/* Стили для прогресс‑бара */
+.progress-container {
+  margin: 20px 0;
+}
+
+.progress-bar {
+  height: 20px;
+  background: var(--progress-bg);
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+
+.progress-fill {
+  height: 100%;
+  background: var(--progress-fill-gradient);
+  transition: width 0.5s ease-in-out, background-color 0.3s ease;
+  width: 0%;
+}
+
+/* Анимация для высокого прогресса */
+.progress-fill.high-progress {
+  background-color: var(--progress-high-color);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% { opacity: 1; }
+  50% { opacity: 0.7; }
+  100% { opacity: 1; }
+}
+
+.progress-text {
+  text-align: center;
+  font-size: 14px;
   color: var(--text-color);
-  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2); /* Тень для читаемости */
 }
 
-#totalDisplay {
-  font-size: 20px;
-  font-weight: bold;
-  color: var(--text-color);
-  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2); /* Тень для читаемости */
-}
+/* Стили для таблицы заданий */
 
-/* Светлая тема */
-.light-theme #totalDisplay {
-  font-size: 20px;
-  font-weight: bold;
-  color: #1f1f1f;
-  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2); /* Тень для читаемости */
-}
-
-/* Тёмная тема */
-.dark-theme #totalDisplay {
-  font-size: 20px;
-  font-weight: bold;
-  color: #e0e0e0; /* Почти белый текст */
-  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2); /* Тень для читаемости */
-}
-
-/* Стили кнопок */
-#resetBtn, #fractionToggle {
-  background-color: var(--button-bg);
-  color: var(--button-text);
-  border: none;
-  padding: 8px 16px;
-  margin: 5px;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-  font-size: 16px;
-  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2); /* Тень для читаемости */
-}
-
-#themeToggle {
-  background-color: #ffffff00;
-  color: #ffffff00;
-  border: none;
-  padding: 8px 16px;
-  margin: 5px;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-  font-size: 16px;
-  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2); /* Тень для читаемости */
-}
-
-#resetBtn:hover, #fractionToggle:hover {
-  background-color: var(--theme-btn-hover);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-#themeToggle:hover {
-  background-color: #ffffff00;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0);
-}
-
-#resetBtn:active, #fractionToggle:active {
-  transform: translateY(0);
-}
-
-#themeToggle:active {
-  transform: translateY(0);
-}
-
-/* Тёмная тема: меняем цвет кнопки */
-[data-theme="dark"] #themeToggle {
-  background-color: #3b3d3f00; /* Тёмно‑серый для тёмной темы */
-}
-
-[data-theme="dark"] #themeToggle:hover {
-  background-color: #343a4000; /* Ещё темнее при наведении в тёмной теме */
-}
-
-/* Стили сетки и колонок */
 .grid {
   display: flex;
+  flex-wrap: wrap;
   gap: 20px;
+  width: 100%;
+  min-height: 400px; /* Минимальная высота для корректного расчёта */
 }
 
 .column {
   flex: 1;
-  border: 1px solid #dddddd;
-  padding: 10px;
-  border-radius: 5px;
-}
-
-/* Стили таблицы */
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-td, th {
-  padding: 8px;
-  text-align: center;
-}
-
-.small {
-  font-size: 0.9em;
-  margin-left: 5px;
-}
-
-.controls {
+  min-width: 300px;
   display: flex;
-  align-items: center;
-  justify-content: space-between; /* Разделяет элементы по краям */
-  margin: 20px 0;
+  flex-direction: column;
 }
 
-
-.left {
-  display: inline-block;
+.easy-col {
+  flex: 1;
 }
 
-/* Таблица заданий */
-.tasks-column {
-  background-color: #7a7a7a69;
-  border: 1px solid var(--table-border);
-  color: var(--text-color);
-  border-radius: var(--row-radius);
-  overflow: hidden;
+.tasks-container {
+  width: 100%;
+  height: 100%;
   font-weight: bold;
-  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2); /* Тень для читаемости */
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-size: 14px;
+  border-radius: 12px 12px 0 0;
+  overflow: hidden;
+  background-color: var(--table-bg);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  text-align: center; /* Центрирование текста по горизонтали */
+  display: flex;
+  align-items: center; /* Вертикальное центрирование */
+  justify-content: center; /* Горизонтальное центрирование */
+  height: 50px; /* Фиксированная высота для лучшего центрирования */
+}
+
+.table-header {
+  padding: 15px 20px;
+  background-color: var(--table-bg);
+  color: var(--text-color);
+  letter-spacing: 0.5px;
+  border-bottom: 1px solid var(--table-border);
+}
+
+[data-theme="dark"] .tasks-container {
+  background-color: var(--table-bg); /* Тёмный фон контейнера */
+}
+
+[data-theme="dark"] .table-header {
+  border-bottom: 1px solid var(--table-border); /* Тёмная граница */
+}
+
+.tasks-column {
+  width: 100%;
+  border-radius: 0 0 12px 12px;
+  background-color: var(--table-bgd);
+  border-collapse: collapse;
+  table-layout: fixed;
+  margin: 0;
+  border: none; /* Убираем внешние границы таблицы */
+}
+
+/* Нижний левый угол */
+.tasks-column tbody tr:last-child td:first-child {
+  border-bottom-left-radius: 12px;
+}
+
+/* Нижний правый угол */
+.tasks-column tbody tr:last-child td:last-child {
+  border-bottom-right-radius: 12px;
 }
 
 .tasks-column th,
 .tasks-column td {
-  border: 1px solid var(--table-border);
-  padding: 8px 12px;
+  padding: 12px 15px;
   text-align: left;
-  border-bottom: none;
-}
-
-/* Закругление для первой ячейки в строке (левый край) */
-.tasks-column tr td:first-child {
-  border-radius: var(--row-radius) 0 0 var(--row-radius);
-}
-
-/* Закругление для последней ячейки в строке (правый край) */
-.tasks-column tr td:last-child {
-  border-radius: 0 var(--row-radius) var(--row-radius) 0;
-}
-
-/* Для последней строки — полная рамка с закруглениями */
-.tasks-column tbody tr:last-child td:first-child {
-  border-bottom-left-radius: var(--row-radius);
-}
-.tasks-column tbody tr:last-child td:last-child {
-  border-bottom-right-radius: var(--row-radius);
-}
-
-/* Убираем нижнюю границу у всех ячеек, кроме последней строки */
-.tasks-column tbody tr:not(:last-child) td {
   border-bottom: 1px solid var(--table-border);
 }
 
-/* Ячейки с наградами */
-.reward {
+.tasks-column thead th {
+  background-color: var(--table-bg);
+  color: var(--text-color);
   font-weight: bold;
-  font-size: 16px;
-  text-align: center;
-  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2); /* Тень для читаемости */
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-size: 12px;
 }
 
-/* Активная область клика */
+.tasks-column tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* Hover‑эффекты для таблицы */
+.tasks-column tbody tr:not(.done):hover {
+  background-color: rgba(243, 188, 7, 0.1);
+  transition: background-color 0.2s ease;
+}
+
+.tasks-column tbody tr.done:hover {
+  background-color: #f3bc0725;
+}
+
+/* Стили для кастомных чекбоксов */
 .custom-checkbox {
   display: flex;
   align-items: center;
-  cursor: pointer;
-  padding: 4px 0;
+  gap: 10px;
+  padding: 0; /* Ключевое: убираем отступы */
+  margin: 0;
+  cursor: pointer; /* Курсор по умолчанию */
 }
 
-/* Скрываем оригинальный чекбокс */
-.custom-checkbox input[type="checkbox"] {
+/* Сам чекбокс — зона клика только здесь */
+.task-checkbox {
+  cursor: pointer;
+  transform: scale(1.4);
+  margin: 0;
+  opacity: 0; /* Скрываем стандартный */
   position: absolute;
-  opacity: 0;
-  width: 0;
-  height: 0;
+  width: 1px;
+  height: 1px;
 }
 
-/* Создаём кастомный элемент */
-.custom-checkbox .checkmark {
-  display: inline-block;
-  width: 20px;
-  height: 20px;
+.custom-checkbox input[type="checkbox"] {
+  display: none;
+}
+
+/* Кастомный чекбокс */
+.checkmark {
+  width: var(--checkbox-size);
+  height: var(--checkbox-size);
   border: 2px solid var(--checkbox-border);
-  border-radius: 4px;
-  margin-right: 8px;
-  vertical-align: middle;
-  cursor: pointer;
-  position: relative;
+  border-radius: 3px;
+  cursor: pointer; /* Активная зона только на этом элементе */
   transition: all 0.3s ease;
-  box-shadow: 0 1.1px 3px rgba(131, 131, 131, 0.9); /* Тень */
+  position: relative;
 }
 
-/* Стиль при наведении */
-.custom-checkbox:hover .checkmark {
-  border-color: var(--checkbox-checked);
-}
-
-/* Стиль для отмеченного состояния */
 .custom-checkbox input[type="checkbox"]:checked + .checkmark {
   background-color: var(--checkbox-checked);
   border-color: var(--checkbox-checked);
 }
 
-/* Добавляем галочку */
 .custom-checkbox input[type="checkbox"]:checked + .checkmark::after {
-  content: "✓";
-  color: rgb(255, 255, 255);
-  font-size: 18px;
+  content: '✓';
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7); /* Тень для читаемости */
+  color: white;
+  font-size: 18px;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
 }
 
-/* Стили для отмеченных заданий */
+/* Стили для выполненных заданий */
 .done {
-  background-color: #b4cfba;
+  background-color: #f3bc071a !important;
+  transition: background-color 0.3s ease !important;
+}
+
+.done .task-item {
+  color: #6c757d !important;
 }
 
 [data-theme="dark"] .done {
-  background-color: #2d4d30;
+  background-color: #f3bc072a !important;
 }
 
-.done td:not(.checkbox-cell) label {
-  color: #1a1a1a;
+[data-theme="dark"] .done .task-item {
+  color: #adb5bd !important;
 }
 
-[data-theme="dark"] .done td:not(.checkbox-cell) label {
-  color: #f3f3f3;
+/* Стили для выполненных заданий */
+.completed {
+  background-color: #f3bc074f !important;
+  transition: background-color 0.3s ease !important;
 }
 
-/* Элементы управления */
-.controls {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin: 20px 0;
+.completed .task-item {
+  color: #6c757d !important;
 }
 
-.left {
-  display: inline-block;
+[data-theme="dark"] .completed {
+  background-color: #f3bc072a !important;
 }
 
-/* Ячейки с чекбоксами */
-.checkbox-cell {
-  width: 1px;
-  white-space: nowrap;
+[data-theme="dark"] .completed .task-item {
+  color: #adb5bd !important;
 }
 
-/* Стиль для метки при наведении */
-td:not(.checkbox-cell) label {
+/* Стили для .task-item — зона клика для чекбокса */
+.task-item {
   cursor: pointer;
-  display: block;
   padding: 8px 12px;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+  position: relative;
 }
 
-/* Фон с overlay */
-.layout-with-background {
-  position: relative; /* Для позиционирования overlay */
+/* Убираем hover‑эффект для выполненных заданий */
+.done .task-item:hover,
+.completed .task-item:hover {
+  background-color: transparent;
+  transform: none;
+}
+
+/* Блок управления лотереей */
+.lottery-controls {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  padding: 15px 20px;
-  min-height: 80px; /* Минимальная высота */
+  gap: 8px;
+  margin-left: auto;
 }
 
-.background-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-image: url('game-bg.jpg');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  filter: blur(2px); /* Лёгкое размытие */
-  z-index: -1; /* Помещаем под содержимое */
+.arrow-btn {
+  width: var(--lottery-btn-size);
+  height: var(--lottery-btn-size);
+  border: 2px solid var(--table-border);
+  background: var(--table-bg);
+  color: var(--text-color);
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 14px;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
 }
 
-/* Полупрозрачный слой поверх фона для лучшей читаемости */
-.layout-with-background::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.3); /* 30% затемнения */
-  z-index: -1;
+.arrow-btn:hover {
+  background: #f3bc071a;
+  border-color: #f3bc07;
 }
 
-/* Сброс стилей для таблиц внутри колонок */
-.column table {
-  margin: 10px 0;
+.arrow-btn:active {
+  transform: scale(0.95);
 }
 
-/* Дополнительные стили для заголовка таблицы */
-.tasks-column thead th {
-  background-color: var(--table-bg);
+.quantity-display {
+  min-width: var(--lottery-quantity-min-width);
+  font-size: 14px;
+  text-align: center;
   font-weight: bold;
-  border-bottom: 2px solid var(--table-border);
+  color: var(--quantity-display);
 }
 
-/* Стили для кнопок переключения дробей */
-#fractionToggle {
-  background-color: #007bff;
+/* Завершённый счётчик лотереи */
+.lottery-controls.completed {
+  background-color: #f3bc071a;
+  border: 1px solid #f3bc07;
+  border-radius: 4px;
+  padding: 2px 6px;
 }
 
-#fractionToggle:hover {
-  background-color: #0056b3;
+/* Неактивные кнопки */
+.arrow-btn.disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  pointer-events: none;
 }
 
-/* Плавные переходы для всех изменяемых свойств */
-* {
+.logo-toggle {
+  background-image: url('akso.png'); /* Путь к логотипу */
+  background-color: #ffffff00;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  border: none;
+  width: 150px;
+  height: 150px;
+  cursor: pointer;
+  padding: 0;
+}
+
+[data-theme="dark"] .logo-toggle {
+  /* Альтернативный логотип для тёмной темы (если нужен) */
+  /* background-image: url('logo-light.svg'); */
+}
+
+.logo-toggle:hover {
+  opacity: 0.8;
+}
+
+/* Кнопка сброса */
+#resetBtn {
+  background-color: #6c757d;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
   transition: all 0.3s ease;
+  display: block;
+  margin: 20px auto 0;
 }
 
+#resetBtn:hover {
+  background-color: #545b62;
+  /* Убрано transform: translateY() */
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); /* Более мягкая тень */
+}
+
+#resetBtn:active {
+  /* Убрано transform */
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.2); /* Внутренняя тень вместо смещения */
+}
+
+/* Награды */
+.reward {
+  font-weight: bold;
+  color: var(--reward-color);
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+
+  :root {
+    --checkbox-size: 18px;
+    --lottery-btn-size: 24px;
+    --lottery-quantity-min-width: 25px;
+  }
+
+  .header-right {
+    gap: 10px;
+    font-size: 16px;
+  }
+  
+  .tasks-column td {
+    padding: 8px 10px;
+    font-size: 12px;
+  }
+  
+  .lottery-controls {
+    padding: 4px 8px;
+    gap: 6px;
+  }
+  
+  .arrow-btn {
+    font-size: 10px;
+  }
+
+  .quantity-display {
+    min-width: 25px;
+    font-size: 12px;
+  }
+
+  .custom-checkbox {
+    gap: 8px;
+  }
+  
+  .checkmark {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+
+  :root {
+    --checkbox-size: 18px;
+    --lottery-btn-size: 18px;
+    --lottery-quantity-min-width: 25px;
+  }
+
+  .container {
+    padding: 0 5px;
+  }
+  
+  .tasks-column td {
+    padding: 6px 8px;
+    font-size: 12px;
+  }
+
+  .arrow-btn {
+    font-size: 10px;
+  }
+  .quantity-display {
+    font-size: 12px;
+  }
+  
+  .progress-bar {
+    height: 16px;
+  }
+  
+  .total {
+    font-size: 16px;
+  }
+  
+  #totalDisplay, #remainingDisplay {
+    font-size: 18px;
+  }
+}
+
+/* Анимации для элементов */
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Плавное появление контейнера */
+.container {
+  opacity: 0;
+  animation: fadeIn 0.5s forwards;
+}
+
+/* Анимация для новых заданий */
+.task-row {
+  animation: scaleIn 0.3s forwards;
+}
+
+/* Стили для состояний загрузки */
+.loading::after {
+  content: '...';
+  animation: dots 1.5s steps(4, end) infinite;
+}
+
+@keyframes dots {
+  0%, 20% { content: ' '; }
+  25%, 60% { content: '.'; }
+  65%, 80% { content: '..'; }
+  85%, 100% { content: '...'; }
+}
+
+/* Оптимизация для печати */
+@media print {
+  body::before {
+    display: none;
+  }
+  
+  .header-right,
+  .progress-container,
+  .lottery-controls,
+  .status-cell {
+    display: none;
+  }
+  
+  body {
+    background: white;
+    color: black;
+  }
+  
+  .tasks-column {
+    border: 1px solid black;
+    width: 100%;
+  }
+  
+  .tasks-column th,
+  .tasks-column td {
+    border: 1px solid black;
+    padding: 8px;
+    font-size: 12pt;
+  }
+  
+  .reward {
+    font-weight: bold;
+    color: black;
+  }
+  
+  #totalDisplay, #remainingDisplay {
+    color: black;
+  }
+  
+  h1 {
+    font-size: 16pt;
+  }
+  
+  .total {
+    font-size: 14pt;
+    margin-bottom: 15px;
+  }
+}
+
+/* Улучшенная адаптивность для очень маленьких экранов */
+@media (max-width: 320px) {
+
+  :root {
+    --checkbox-size: 16px;
+    --lottery-btn-size: 16px;
+    --lottery-quantity-min-width: 20px;
+  }
+
+  .container {
+    padding: 0 5px;
+  }
+  
+  .tasks-column td {
+    padding: 6px 8px;
+    font-size: 11px;
+  }
+  
+  .quantity-display {
+    min-width: 20px;
+    font-size: 10px;
+  }
+  
+  .arrow-btn {
+    width: 20px;
+    height: 20px;
+    font-size: 9px;
+  }
+  
+  .quantity-display {
+    font-size: 11px;
+  }
+
+  .total {
+    font-size: 13px;
+  }
+  
+  #totalDisplay, #remainingDisplay {
+    font-size: 15px;
+  }
+
+  .progress-bar {
+    height: 14px;
+  }
+
+  .progress-text {
+    font-size: 11px;
+  }
+  
+  .header-left h1 {
+    font-size: 18px;
+  }
+  
+  .header-right {
+    font-size: 12px;
+    gap: 5px;
+  }
+  
+  .small {
+    font-size: 11px;
+  }
+}
+
+/* Дополнительные стили для разных состояний */
+.task-item.completed {
+  text-decoration: line-through;
+  color: #6c757d;
+}
+
+[data-theme="dark"] .task-item.completed {
+  color: #adb5bd;
+}
+
+
+
+.lottery-controls:hover .tooltip {
+  opacity: 1;
+}
+
+/* Стили для индикатора цели лотереи */
+.target-indicator {
+  font-size: 11px;
+  color: #6c757d;
+  margin-left: 5px;
+}
+
+[data-theme="dark"] .target-indicator {
+  color: #adb5bd;
+}
+
+/* Стили для счётчика с анимацией */
+.quantity-display.animated {
+  animation: highlight 0.5s ease-out;
+}
+
+@keyframes highlight {
+  0% {
+    background-color: rgba(243, 188, 7, 0.2);
+  }
+  100% {
+    background-color: transparent;
+  }
+}
