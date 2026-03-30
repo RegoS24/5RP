@@ -533,9 +533,16 @@ body::before {
     gap: 8px;
   }
   
+  .custom-checkbox,
   .checkmark {
-    width: 16px;
-    height: 16px;
+    width: 18px;
+    height: 18px;
+  }
+  .custom-checkbox input:checked + .checkmark::after {
+    width: 7px;
+    height: 12px;
+    left: 5px;
+    top: 1px;
   }
 }
 
@@ -593,6 +600,18 @@ body::before {
     opacity: 1;
   }
 }
+
+.custom-checkbox,
+  .checkmark {
+    width: 16px;
+    height: 16px;
+  }
+  .custom-checkbox input:checked + .checkmark::after {
+    width: 6px;
+    height: 10px;
+    left: 4px;
+    top: 0px;
+  }
 
 /* Плавное появление контейнера */
 .container {
