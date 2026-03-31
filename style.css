@@ -87,14 +87,6 @@ body::before {
   transition: background-color 0.3s ease;
 }
 
-.container {
-  max-width: 360px;
-  width: 100%;
-  margin: 0 auto;
-  padding: 0 15px;
-  box-sizing: border-box;
-}
-
 .background-overlay {
   position: absolute; /* Выносим из потока, чтобы не влиять на расположение других элементов */
   top: 0;
@@ -628,9 +620,9 @@ color: var(--text-color)
 #resetBtn {
   background-color: #a50000;
   color: #f3f3f3;
-  box-shadow: inset 2px 2px 3px rgba(0, 0, 0, 0.336), inset -2px -2px 3px rgba(0, 0, 0, 0.336);
+  box-shadow: inset 4px 4px 8px rgba(255, 255, 255, 0.336), inset -4px -4px 8px rgba(255, 255, 255, 0.336);
   border: none;
-  padding: 10px 20px;
+  padding: 20px 0;
   border-radius: 8px;
   cursor: pointer;
   font-size: 14px;
@@ -640,12 +632,41 @@ color: var(--text-color)
   margin: 20px auto 0;
 }
 
+[data-theme="dark"] #resetBtn {
+  box-shadow: inset 4px 4px 8px rgba(0, 0, 0, 0.4), inset -4px -4px 8px rgba(0, 0, 0, 0.4);
+}
 /* Награды */
 .reward {
   text-align: center;
   vertical-align: middle;
   font-weight: bold;
   color: var(--reward-color);
+}
+
+.hide-on-scroll {
+  width: 100%;
+  height: 50px;
+  position: fixed;
+  bottom: 0px;
+  right: 0px;
+  margin-bottom: 0px;
+  justify-content: space-between; /* Равномерное распределение с отступами по краям */
+  align-items: center; /* Вертикальное выравнивание по центру */
+  font-weight: bold;
+  background-color: var(--table-border);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.623);
+  opacity: 1;
+  transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.hide-on-scroll.hidden {
+  opacity: 0;
+  transform: translateY(100%);
+}
+
+/* Тёмная тема: адаптация стилей */
+[data-theme="dark"] .hide-on-scroll {
+  background-color: var(--table-border);
 }
 
 @media (max-width: 480px) {
@@ -686,7 +707,6 @@ color: var(--text-color)
     font-size: 15px;
     font-weight: 550;
     color: var(--checkbox-checked);
-    filter: drop-shadow(0.5px 0.5px 1px rgba(0, 0, 0, 0.411));
     align-items: center;
     min-width: auto;
   }
@@ -814,7 +834,7 @@ color: var(--text-color)
   /* Кнопка сброса — делаем шире */
   #resetBtn {
     width: 100%;
-    padding: 10px 0;
+    padding: 13px 0;
     font-size: 14px;
     margin: 0;
   }

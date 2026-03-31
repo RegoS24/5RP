@@ -225,3 +225,25 @@ document.documentElement.setAttribute('data-theme', savedTheme);
 // Первоначальное обновление отображения
 updateDisplay();
 });
+
+let lastScrollTop = 0;
+let ticking = false;
+const element = document.querySelector('.hide-on-scroll');
+
+window.addEventListener('scroll', function() {
+  if (!ticking) {
+    requestAnimationFrame(function() {
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+      if (scrollTop > lastScrollTop && scrollTop > 100) {
+        element.classList.add('hidden');
+      } else if (scrollTop < lastScrollTop) {
+        element.classList.remove('hidden');
+      }
+
+      lastScrollTop = scrollTop;
+      ticking = false;
+    });
+    ticking = true;
+  }
+});
