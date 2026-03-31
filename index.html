@@ -1,52 +1,56 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html lang="ru" data-theme="light">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0", maximum-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
   <title>Bonus Point</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="container">
-    <div class="layout-with-background">
-      <div class="background-overlay"></div>
-      <div class="header-left">
-        <h1>Bonus Point</h1>
-      </div>
-      <button id="themeToggle" class="logo-toggle" aria-label="Переключить тему">☀️</button>
-      <div class="header-right">
-        <!-- VIP чекбокс -->
-        <label class="custom-checkbox">
-          <input type="checkbox" id="vipCheckbox">
-          <span class="checkmark"></span>
-          <span class="small">Platinum VIP</span>
-        </label>
-
-        <!-- X2 чекбокс -->
-        <label class="custom-checkbox">
-          <input type="checkbox" id="x2Checkbox">
-          <span class="checkmark"></span>
-          <span class="small">X2</span>
-        </label>
-      </div>
-    </div><br>
-
-    <div class="controls">
-      <div class="total">
-        <div class="left">Получено: <span id="totalDisplay">0 BP</span></div>
-        <div class="right">Осталось: <span id="remainingDisplay">0 BP</span></div>
-      </div>
-      <div class="progress-container">
-        <div class="progress-bar">
-          <div class="progress-fill" id="progressFill"></div>
+  <div class="layout-with-background">
+    <div class="background-overlay"></div>
+    <button id="themeToggle" class="logo-toggle"></button>
+  </div>
+      <tr>
+  <div class="total">
+    <table class="vlog">
+      <td>
+        <div class="left-cell">Получено: <span id="totalDisplay">0 BP</span></div>
+      </td><td>
+        <div class="right-cell">Осталось: <span id="remainingDisplay">0 BP</span></div>
+      </td>
+    </table>
+      </tr>
+      <tr>
+        <div class="progress-container">
+          <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+          </div>
+            <div class="progress-text">
+              <span id="progressPercent">0%</span> выполнено
+            </div>
+          </div>
         </div>
-        <div class="progress-text">
-          <span id="progressPercent">0%</span> выполнено
-        </div>
-      </div>
-      <button id="resetBtn">Сбросить все</button>
-    </div><br>
+      </tr>
+  </div><br>
+  
+  <div class="header-right">
+          <!-- VIP чекбокс -->
+    <label class="custom-checkbox">
+      <input type="checkbox" id="vipCheckbox">
+        <span class="checkmark"></span>
+        <span class="small">Platinum VIP</span>
+    </label>
+
+          <!-- X2 чекбокс -->
+          <label class="custom-checkbox">
+            <input type="checkbox" id="x2Checkbox">
+            <span class="checkmark"></span>
+            <span class="small">X2</span>
+          </label>
+      </div><br>
+
+      <button id="resetBtn">Сбросить все</button><br>
 
     <div class="grid" id="tasksGrid">
       <div class="column easy-col">

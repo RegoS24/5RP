@@ -1,16 +1,12 @@
 * {
   user-select: none;
-}
-
-/* Для поддержки старых браузеров */
-* {
   -webkit-user-select: none; /* Chrome/Safari/Opera */
   -moz-user-select: none;    /* Firefox */
   -ms-user-select: none;     /* Internet Explorer/Edge */
 }
 /* Базовые переменные для светлой темы */
 :root {
-  --checkbox-size: 28px;
+  --checkbox-size: 22px;
   --lottery-btn-size: 28px;
   --lottery-quantity-min-width: 35px;
   --bg-color: #f3f3f3;
@@ -44,7 +40,7 @@
   --table-border: #555555;
   --button-bg: transparent;
   --button-text: #ffffff;
-  --checkbox-border: #b8b8b8;
+  --checkbox-border: #adb5bd;
   --checkbox-checked: #f3bc07;
   --theme-btn-bg: #7a7a7a;
   --theme-btn-text: white;
@@ -85,6 +81,7 @@ body::before {
   z-index: -1;
   transition: background-color 0.3s ease;
 }
+
 .container {
   max-width: 1200px;
   width: 100%;
@@ -106,41 +103,47 @@ body::before {
 
 /* Стили для заголовка */
 .layout-with-background {
+  position: relative;
+  width: 100%;
+  height: 100px;
+  overflow: hidden;
   white-space: nowrap;
   display: flex;
   justify-content: space-between;
   align-items: center;
   background-color: var(--table-bg);
-  border-bottom: 1px solid var(--table-border);
-  border-radius: 0 0 8px 8px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  width: 100%;
   box-sizing: border-box;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
 }
 
-.header-left h1 {
-  position: relative;
-  margin: 0 auto;
-  color: var(--header-color);
-  font-size: 24px;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
-  display: block;
+.background-overlay {
+  background-image: url(game-bg.jpg);
+  background-size: cover;
+  filter: blur(2px);
+  z-index: -1;
+}
+
+.logo-toggle {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
-  text-align: center; /* Выравнивание текста по центру внутри элемента */
-  box-sizing: border-box
+  height: 100%;
+  border: none;
+  background-image: url('akso.png'); /* Путь к логотипу */
+  background-color: #ffffff00;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  cursor: pointer;
+  padding: 0;
+  margin: 0;
 }
 
 .header-right {
   display: flex;
   align-items: center;
-  gap: 20px;
-  color: var(--header-color);
   font-size: 18px;
-}
-
-#themeToggle {
-  flex-shrink: 0; /* Не сжимаем кнопку */
-  margin-left: 15px; /* Отступ слева */
 }
 
 /* Стили для счётчиков — одна линия, выравнивание по краям */
@@ -148,13 +151,13 @@ body::before {
   display: flex;
   justify-content: space-between; /* Равномерное распределение с отступами по краям */
   align-items: center; /* Вертикальное выравнивание по центру */
-  font-size: 18px;
   font-weight: bold;
-  margin-bottom: 15px;
-  padding: 10px 15px; /* Отступы внутри контейнера */
-  background-color: var(--table-bg); /* Фон как у таблицы */
-  border-radius: 8px; /* Скруглённые углы */
-  border: 1px solid var(--table-border); /* Граница */
+  margin-bottom: 10px;
+  padding: 10px 10px; /* Отступы внутри контейнера */
+  background-color: var(--table-border);
+  border-radius: 0 0 12px 12px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid var(--table-border);
 }
 
 #totalDisplay, #remainingDisplay {
@@ -165,6 +168,23 @@ body::before {
   text-align: right; /* Текст справа для единообразия */
 }
 
+.vlog {
+  width: 100%;
+  border-spacing: 0;
+  border-collapse: collapse;
+  padding: 20px;
+}
+
+.left-cell {
+  text-align: left;
+  font-size: 18px;
+}
+
+.right-cell {
+  text-align: right;
+  font-size: 18px;
+}
+
 /* Тёмная тема: адаптация стилей */
 [data-theme="dark"] .total {
   background-color: var(--table-bg);
@@ -173,11 +193,15 @@ body::before {
 
 /* Стили для прогресс‑бара */
 .progress-container {
-  margin: 20px 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 .progress-bar {
-  height: 20px;
+  width: 100%;
+  height: 12px;
   background: var(--progress-bg);
   border-radius: 10px;
   overflow: hidden;
@@ -242,7 +266,6 @@ body::before {
   display: flex;
   flex-direction: column;
   text-align: center; /* Центрирование текста по горизонтали */
-  display: flex;
   align-items: center; /* Вертикальное центрирование */
   justify-content: center; /* Горизонтальное центрирование */
   height: 50px; /* Фиксированная высота для лучшего центрирования */
@@ -334,11 +357,10 @@ body::before {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 12px;
-  padding: 8px 12px;
   cursor: pointer;
   width: 100%;
   white-space: nowrap;
+  gap: 12px;
 }
 
 /* Сам чекбокс — зона клика только здесь */
@@ -512,28 +534,6 @@ body::before {
   pointer-events: none;
 }
 
-.logo-toggle {
-  background-image: url('akso.png'); /* Путь к логотипу */
-  background-color: #ffffff00;
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
-  border: none;
-  width: 150px;
-  height: 150px;
-  cursor: pointer;
-  padding: 0;
-}
-
-[data-theme="dark"] .logo-toggle {
-  /* Альтернативный логотип для тёмной темы (если нужен) */
-  /* background-image: url('logo-light.svg'); */
-}
-
-.logo-toggle:hover {
-  opacity: 0.8;
-}
-
 /* Кнопка сброса */
 #resetBtn {
   background-color: #6c757d;
@@ -588,34 +588,33 @@ body::before {
     padding: 8px;
   }
 
-  .header-left h1 {
-    .header-left h1 {
-    font-size: 20px; /* Уменьшаем шрифт для компактности */
-    padding: 0 10px; /* Отступы по бокам для читаемости */
-    box-sizing: border-box;
-  }
-
   .header-right {
     width: 100%;
-    justify-content: space-between; /* Равномерное распределение */
+    justify-content: space-between;
     font-size: 14px;
-    gap: 8px;
   }
 
   /* Счётчики — делаем вертикальным стеком */
   .total {
     flex-direction: column;
     align-items: flex-start;
-    gap: 8px;
-    padding: 12px 15px;
-    font-size: 16px;
   }
 
   #totalDisplay, #remainingDisplay {
-    font-size: 18px;
-    text-align: left;
+    font-size: 15px;
+    align-items: center;
     min-width: auto;
   }
+
+  .left-cell {
+  text-align: left;
+  font-size: 12px;
+}
+
+.right-cell {
+  text-align: right;
+  font-size: 12px;
+}
 
   /* Прогресс‑бар — уменьшаем высоту */
   .progress-container {
@@ -623,6 +622,7 @@ body::before {
   }
 
   .progress-bar {
+    width: 100%;
     height: 14px;
     border-radius: 7px;
   }
@@ -679,7 +679,7 @@ body::before {
   .custom-checkbox {
     display: flex;
     align-items: center;
-    gap: 5px; /* Компактное расположение чекбокса и текста */
+    gap: 10px; /* Компактное расположение чекбокса и текста */
   }
 
   .custom-checkbox .checkmark {
@@ -698,7 +698,7 @@ body::before {
   }
 
   .custom-checkbox input[type="checkbox"]:checked + .checkmark::after {
-    font-size: 20px; /* Галочка крупнее */
+    font-size: 14px; /* Галочка */
   }
 
   /* Лотерея — перестраиваем в строку */
