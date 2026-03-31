@@ -1,8 +1,10 @@
 * {
-  user-select: none;
-  -webkit-user-select: none; /* Chrome/Safari/Opera */
   -moz-user-select: none;    /* Firefox */
   -ms-user-select: none;     /* Internet Explorer/Edge */
+  -webkit-tap-highlight-color: transparent; /* Убирает подсветку тапа */
+  -webkit-touch-callout: none; /* Запрещает появление контекстного меню при долгом тапе */
+  -webkit-user-select: none; /* Отключает выделение текста */
+  user-select: none; /* Стандартное свойство для отключения выделения текста */
 }
 /* Базовые переменные для светлой темы */
 :root {
@@ -12,20 +14,22 @@
   --bg-color: #f3f3f3;
   --text-color: #2b2b2b;
   --header-color: #2b2b2b;
-  --table-bg: #f8f9fa6b;
+  --table-bg: #00000049;
   --table-bgd: #f3bc0710;
-  --table-border: #dee2e6;
+  --table-border: #eeeeee;
   --button-bg: transparent;
   --button-text: #2b2b2b;
-  --checkbox-border: #adb5bd;
+  --checkbox-text: #6b6b6b;
+  --checkbox-border: #a7a7a7;
   --checkbox-checked: #f3bc07;
   --theme-btn-bg: #2b2b2b;
   --theme-btn-text: #ffffff;
   --theme-btn-hover: #545b62;
   --background-overlay-color: rgba(255, 255, 255, 0.795);
-  --progress-bg: #e9ecef;
+  --progress-bg: #b4b4b4;
   --progress-fill-gradient: linear-gradient(90deg, #f3bc07, #d4a006);
   --progress-high-color: #f3bc07;
+  --text-color-progress: #2b2b2b;
   --reward-color: #2b2b2b;
   --quantity-display: #2b2b2b;
 }
@@ -37,9 +41,10 @@
   --header-color: #f3f3f3;
   --table-bg: #2b2b2b96;
   --table-bgd: #f3bc0705;
-  --table-border: #555555;
+  --table-border: #252525;
   --button-bg: transparent;
   --button-text: #ffffff;
+  --checkbox-text: #a8a8a8;
   --checkbox-border: #adb5bd;
   --checkbox-checked: #f3bc07;
   --theme-btn-bg: #7a7a7a;
@@ -49,6 +54,7 @@
   --progress-bg: #495057;
   --progress-fill-gradient: linear-gradient(90deg, #f3bc07, #e0b005);
   --progress-high-color: #ffd166;
+  --text-color-progress: #f3f3f3;
   --reward-color: #f3f3f3;
   --quantity-display: #f3f3f3;
 }
@@ -64,7 +70,6 @@ body {
   background-attachment: fixed;
   background-repeat: no-repeat;
   margin: 0;
-  padding: 20px;
   transition: all 0.3s ease;
   position: relative; /* Для корректной работы ::before */
 }
@@ -83,7 +88,7 @@ body::before {
 }
 
 .container {
-  max-width: 1200px;
+  max-width: 360px;
   width: 100%;
   margin: 0 auto;
   padding: 0 15px;
@@ -96,7 +101,6 @@ body::before {
   left: 0;
   width: 100%;
   height: 100%;
-  background: var(--background-overlay-color); /* Используем переменную из темы */
   z-index: -1; /* Помещаем под остальными элементами */
   pointer-events: none; /* Отключаем взаимодействие с мышью */
 }
@@ -113,13 +117,12 @@ body::before {
   align-items: center;
   background-color: var(--table-bg);
   box-sizing: border-box;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
 }
 
 .background-overlay {
   background-image: url(game-bg.jpg);
   background-size: cover;
-  filter: blur(2px);
+  filter: blur(4px);
   z-index: -1;
 }
 
@@ -131,13 +134,19 @@ body::before {
   height: 100%;
   border: none;
   background-image: url('akso.png'); /* Путь к логотипу */
-  background-color: #ffffff00;
+  background-color: transparent;
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
   cursor: pointer;
+  filter: drop-shadow(0 2px 4px rgba(255, 255, 255, 0.3));
   padding: 0;
   margin: 0;
+}
+
+/* Тёмная тема: адаптация стилей */
+[data-theme="dark"] .logo-toggle {
+  filter: drop-shadow( 2px 0 2px rgba(0, 0, 0, 2));
 }
 
 .header-right {
@@ -148,24 +157,23 @@ body::before {
 
 /* Стили для счётчиков — одна линия, выравнивание по краям */
 .total {
+  height: 100px;
+  position: sticky;
+  top: 0; /* Закрепляется у верхнего края экрана */
+  z-index: 100; /* Чтобы был поверх других элементов */
   display: flex;
   justify-content: space-between; /* Равномерное распределение с отступами по краям */
   align-items: center; /* Вертикальное выравнивание по центру */
   font-weight: bold;
-  margin-bottom: 10px;
-  padding: 10px 10px; /* Отступы внутри контейнера */
+  margin-bottom: 0px;
+  padding: 10px; /* Отступы внутри контейнера */
   background-color: var(--table-border);
-  border-radius: 0 0 12px 12px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  border-bottom: 1px solid var(--table-border);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.623);
 }
 
-#totalDisplay, #remainingDisplay {
-  font-size: 20px;
-  font-weight: bold;
-  color: var(--checkbox-checked);
-  min-width: 60px; /* Минимальная ширина для выравнивания */
-  text-align: right; /* Текст справа для единообразия */
+/* Тёмная тема: адаптация стилей */
+[data-theme="dark"] .total {
+  background-color: var(--table-border);
 }
 
 .vlog {
@@ -178,17 +186,13 @@ body::before {
 .left-cell {
   text-align: left;
   font-size: 18px;
+  font-weight: 550;
 }
 
 .right-cell {
   text-align: right;
   font-size: 18px;
-}
-
-/* Тёмная тема: адаптация стилей */
-[data-theme="dark"] .total {
-  background-color: var(--table-bg);
-  border-color: var(--table-border);
+  font-weight: 550;
 }
 
 /* Стили для прогресс‑бара */
@@ -200,10 +204,11 @@ body::before {
 }
 
 .progress-bar {
+  position: relative;
   width: 100%;
-  height: 12px;
+  height: 30px;
   background: var(--progress-bg);
-  border-radius: 10px;
+  border-radius: 15px;
   overflow: hidden;
   margin-bottom: 10px;
 }
@@ -227,10 +232,27 @@ body::before {
   100% { opacity: 1; }
 }
 
-.progress-text {
-  text-align: center;
-  font-size: 14px;
+.progress-percent {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   color: var(--text-color);
+  font-weight: bold;
+  font-size: 11px;
+  z-index: 2;
+}
+
+[data-theme="dark"] .progress-percent {
+color: var(--text-color)
+}
+
+.background-toplay {
+  padding: 20px;
 }
 
 /* Стили для таблицы заданий */
@@ -261,7 +283,7 @@ body::before {
   font-size: 14px;
   border-radius: 12px 12px 0 0;
   overflow: hidden;
-  background-color: var(--table-bg);
+  background-color: var(--table-border);
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
@@ -280,7 +302,7 @@ body::before {
 }
 
 [data-theme="dark"] .tasks-container {
-  background-color: var(--table-bg); /* Тёмный фон контейнера */
+  background-color: var(--table-border); /* Тёмный фон контейнера */
 }
 
 [data-theme="dark"] .table-header {
@@ -363,6 +385,26 @@ body::before {
   gap: 12px;
 }
 
+.custom-vipcheckbox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  width: 100%;
+  white-space: nowrap;
+  gap: 12px;
+}
+
+.custom-x2checkbox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  width: 100%;
+  white-space: nowrap;
+  gap: 12px;
+}
+
 /* Сам чекбокс — зона клика только здесь */
 .task-checkbox {
   cursor: pointer;
@@ -382,6 +424,14 @@ body::before {
   display: none;
 }
 
+.custom-vipcheckbox input[type="checkbox"] {
+  display: none;
+}
+
+.custom-x2checkbox input[type="checkbox"] {
+  display: none;
+}
+
 /* Кастомный чекбокс */
 .checkmark {
   width: var(--checkbox-size);
@@ -396,6 +446,46 @@ body::before {
 .custom-checkbox input[type="checkbox"]:checked + .checkmark {
   background-color: var(--checkbox-checked);
   border-color: var(--checkbox-checked);
+}
+
+.vipcheckmark {
+  font-size: 28px;
+  font-weight: 900;
+  border-radius: 3px;
+  cursor: pointer; /* Активная зона только на этом элементе */
+  transition: all 0.1s ease;
+  position: relative;
+  color: var(--checkbox-text);
+}
+
+.custom-vipcheckbox input[type="checkbox"] {
+  position: absolute;
+  opacity: 0;
+}
+
+.custom-vipcheckbox:has(input[type="checkbox"]:checked) .vipcheckmark {
+  color: var(--checkbox-checked);
+  filter: drop-shadow(1px 1px 1px rgba(0, 0, 0, 0.411));
+}
+
+.x2checkmark {
+  font-size: 28px;
+  font-weight: 900;
+  border-radius: 3px;
+  cursor: pointer; /* Активная зона только на этом элементе */
+  transition: all 0.1s ease;
+  position: relative;
+  color: var(--checkbox-text);
+}
+
+.custom-x2checkbox input[type="checkbox"] {
+  position: absolute;
+  opacity: 0;
+}
+
+.custom-x2checkbox:has(input[type="checkbox"]:checked) .x2checkmark {
+  color: var(--checkbox-checked);
+  filter: drop-shadow(1px 1px 1px rgba(0, 0, 0, 0.411));
 }
 
 .custom-checkbox input[type="checkbox"]:checked + .checkmark::after {
@@ -536,27 +626,18 @@ body::before {
 
 /* Кнопка сброса */
 #resetBtn {
-  background-color: #6c757d;
-  color: white;
+  background-color: #a50000;
+  color: #f3f3f3;
+  box-shadow: inset 2px 2px 3px rgba(0, 0, 0, 0.336), inset -2px -2px 3px rgba(0, 0, 0, 0.336);
   border: none;
   padding: 10px 20px;
-  border-radius: 4px;
+  border-radius: 8px;
   cursor: pointer;
   font-size: 14px;
+  font-weight: 550;
   transition: all 0.3s ease;
   display: block;
   margin: 20px auto 0;
-}
-
-#resetBtn:hover {
-  background-color: #545b62;
-  /* Убрано transform: translateY() */
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); /* Более мягкая тень */
-}
-
-#resetBtn:active {
-  /* Убрано transform */
-  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.2); /* Внутренняя тень вместо смещения */
 }
 
 /* Награды */
@@ -577,7 +658,7 @@ body::before {
   /* Контейнер — убираем боковые отступы для полного заполнения экрана */
   .container {
     padding: 0 8px; /* Безопасные зоны по краям */
-    max-width: none; /* Занимает всю ширину */
+    max-width: 360px;
   }
 
   /* Заголовок — упрощаем компоновку */
@@ -592,6 +673,7 @@ body::before {
     width: 100%;
     justify-content: space-between;
     font-size: 14px;
+    font-weight: 550;
   }
 
   /* Счётчики — делаем вертикальным стеком */
@@ -602,6 +684,9 @@ body::before {
 
   #totalDisplay, #remainingDisplay {
     font-size: 15px;
+    font-weight: 550;
+    color: var(--checkbox-checked);
+    filter: drop-shadow(0.5px 0.5px 1px rgba(0, 0, 0, 0.411));
     align-items: center;
     min-width: auto;
   }
@@ -609,16 +694,18 @@ body::before {
   .left-cell {
   text-align: left;
   font-size: 12px;
+  font-weight: 550;
 }
 
 .right-cell {
   text-align: right;
   font-size: 12px;
+  font-weight: 550;
 }
 
   /* Прогресс‑бар — уменьшаем высоту */
   .progress-container {
-    margin: 15px 0;
+    padding: 10px 0;
   }
 
   .progress-bar {
@@ -629,6 +716,7 @@ body::before {
 
   .progress-text {
     font-size: 12px;
+    font-weight: 550;
   }
 
   /* Таблица заданий — оптимизируем */
@@ -726,9 +814,9 @@ body::before {
   /* Кнопка сброса — делаем шире */
   #resetBtn {
     width: 100%;
-    padding: 12px 20px;
+    padding: 10px 0;
     font-size: 14px;
-    margin: 15px auto 0;
+    margin: 0;
   }
 
   /* Награды — улучшаем читаемость */

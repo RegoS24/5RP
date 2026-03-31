@@ -2,11 +2,12 @@
 <html lang="ru" data-theme="light">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <meta name="viewport" content="width=360, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Bonus Point</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <div class="container"></div>
   <div class="layout-with-background">
     <div class="background-overlay"></div>
     <button id="themeToggle" class="logo-toggle"></button>
@@ -21,35 +22,26 @@
       </td>
     </table>
       </tr>
-      <tr>
         <div class="progress-container">
           <div class="progress-bar">
             <div class="progress-fill" id="progressFill"></div>
-          </div>
-            <div class="progress-text">
-              <span id="progressPercent">0%</span> выполнено
-            </div>
+            <div class="progress-percent" id="progressPercent">0%</div>
           </div>
         </div>
-      </tr>
-  </div><br>
-  
-  <div class="header-right">
+          <div class="header-right">
           <!-- VIP чекбокс -->
-    <label class="custom-checkbox">
+    <label class="custom-vipcheckbox">
       <input type="checkbox" id="vipCheckbox">
-        <span class="checkmark"></span>
-        <span class="small">Platinum VIP</span>
+        <span class="vipcheckmark">VIP</span>
     </label>
-
           <!-- X2 чекбокс -->
-          <label class="custom-checkbox">
+          <label class="custom-x2checkbox">
             <input type="checkbox" id="x2Checkbox">
-            <span class="checkmark"></span>
-            <span class="small">X2</span>
+            <span class="x2checkmark">X2</span>
           </label>
-      </div><br>
-
+          </div><br>
+        </div>
+<div class="background-toplay">
       <button id="resetBtn">Сбросить все</button><br>
 
     <div class="grid" id="tasksGrid">
@@ -58,6 +50,531 @@
           <thead><tr><th>Задания:</th></tr></thead>
           <table aria-label="Таблица заданий и наград" class="tasks-column">
           <tbody>
+            <tr data-id="task1">
+              <td class="status-cell">
+                <label class="custom-checkbox" for="task1">
+                  <input type="checkbox" class="task-checkbox" id="task1">
+                  <span class="checkmark"></span>
+                </label>
+              </td>
+              <td>
+                <div class="task-item">
+                  <span>Лотерея №1</span>
+                </div>
+              </td>
+              <td class="lottery-cell">
+                <div class="lottery-controls" data-target="5" data-id="lottery1">
+                  <button class="arrow-btn up-arrow" type="button">↑</button>
+                  <span class="quantity-display">0</span>
+                  <button class="arrow-btn down-arrow" type="button">↓</button>
+                </div>
+              </td>
+              <td class="reward" data-with="4" data-without="2">2 BP</td>
+            </tr>
+            <tr data-id="task1">
+              <td class="status-cell">
+                <label class="custom-checkbox" for="task1">
+                  <input type="checkbox" class="task-checkbox" id="task1">
+                  <span class="checkmark"></span>
+                </label>
+              </td>
+              <td>
+                <div class="task-item">
+                  <span>Лотерея №1</span>
+                </div>
+              </td>
+              <td class="lottery-cell">
+                <div class="lottery-controls" data-target="5" data-id="lottery1">
+                  <button class="arrow-btn up-arrow" type="button">↑</button>
+                  <span class="quantity-display">0</span>
+                  <button class="arrow-btn down-arrow" type="button">↓</button>
+                </div>
+              </td>
+              <td class="reward" data-with="4" data-without="2">2 BP</td>
+            </tr>
+            <tr data-id="task1">
+              <td class="status-cell">
+                <label class="custom-checkbox" for="task1">
+                  <input type="checkbox" class="task-checkbox" id="task1">
+                  <span class="checkmark"></span>
+                </label>
+              </td>
+              <td>
+                <div class="task-item">
+                  <span>Лотерея №1</span>
+                </div>
+              </td>
+              <td class="lottery-cell">
+                <div class="lottery-controls" data-target="5" data-id="lottery1">
+                  <button class="arrow-btn up-arrow" type="button">↑</button>
+                  <span class="quantity-display">0</span>
+                  <button class="arrow-btn down-arrow" type="button">↓</button>
+                </div>
+              </td>
+              <td class="reward" data-with="4" data-without="2">2 BP</td>
+            </tr>
+            <tr data-id="task1">
+              <td class="status-cell">
+                <label class="custom-checkbox" for="task1">
+                  <input type="checkbox" class="task-checkbox" id="task1">
+                  <span class="checkmark"></span>
+                </label>
+              </td>
+              <td>
+                <div class="task-item">
+                  <span>Лотерея №1</span>
+                </div>
+              </td>
+              <td class="lottery-cell">
+                <div class="lottery-controls" data-target="5" data-id="lottery1">
+                  <button class="arrow-btn up-arrow" type="button">↑</button>
+                  <span class="quantity-display">0</span>
+                  <button class="arrow-btn down-arrow" type="button">↓</button>
+                </div>
+              </td>
+              <td class="reward" data-with="4" data-without="2">2 BP</td>
+            </tr>
+            <tr data-id="task1">
+              <td class="status-cell">
+                <label class="custom-checkbox" for="task1">
+                  <input type="checkbox" class="task-checkbox" id="task1">
+                  <span class="checkmark"></span>
+                </label>
+              </td>
+              <td>
+                <div class="task-item">
+                  <span>Лотерея №1</span>
+                </div>
+              </td>
+              <td class="lottery-cell">
+                <div class="lottery-controls" data-target="5" data-id="lottery1">
+                  <button class="arrow-btn up-arrow" type="button">↑</button>
+                  <span class="quantity-display">0</span>
+                  <button class="arrow-btn down-arrow" type="button">↓</button>
+                </div>
+              </td>
+              <td class="reward" data-with="4" data-without="2">2 BP</td>
+            </tr>
+            <tr data-id="task1">
+              <td class="status-cell">
+                <label class="custom-checkbox" for="task1">
+                  <input type="checkbox" class="task-checkbox" id="task1">
+                  <span class="checkmark"></span>
+                </label>
+              </td>
+              <td>
+                <div class="task-item">
+                  <span>Лотерея №1</span>
+                </div>
+              </td>
+              <td class="lottery-cell">
+                <div class="lottery-controls" data-target="5" data-id="lottery1">
+                  <button class="arrow-btn up-arrow" type="button">↑</button>
+                  <span class="quantity-display">0</span>
+                  <button class="arrow-btn down-arrow" type="button">↓</button>
+                </div>
+              </td>
+              <td class="reward" data-with="4" data-without="2">2 BP</td>
+            </tr>
+            <tr data-id="task1">
+              <td class="status-cell">
+                <label class="custom-checkbox" for="task1">
+                  <input type="checkbox" class="task-checkbox" id="task1">
+                  <span class="checkmark"></span>
+                </label>
+              </td>
+              <td>
+                <div class="task-item">
+                  <span>Лотерея №1</span>
+                </div>
+              </td>
+              <td class="lottery-cell">
+                <div class="lottery-controls" data-target="5" data-id="lottery1">
+                  <button class="arrow-btn up-arrow" type="button">↑</button>
+                  <span class="quantity-display">0</span>
+                  <button class="arrow-btn down-arrow" type="button">↓</button>
+                </div>
+              </td>
+              <td class="reward" data-with="4" data-without="2">2 BP</td>
+            </tr>
+            <tr data-id="task1">
+              <td class="status-cell">
+                <label class="custom-checkbox" for="task1">
+                  <input type="checkbox" class="task-checkbox" id="task1">
+                  <span class="checkmark"></span>
+                </label>
+              </td>
+              <td>
+                <div class="task-item">
+                  <span>Лотерея №1</span>
+                </div>
+              </td>
+              <td class="lottery-cell">
+                <div class="lottery-controls" data-target="5" data-id="lottery1">
+                  <button class="arrow-btn up-arrow" type="button">↑</button>
+                  <span class="quantity-display">0</span>
+                  <button class="arrow-btn down-arrow" type="button">↓</button>
+                </div>
+              </td>
+              <td class="reward" data-with="4" data-without="2">2 BP</td>
+            </tr>
+            <tr data-id="task1">
+              <td class="status-cell">
+                <label class="custom-checkbox" for="task1">
+                  <input type="checkbox" class="task-checkbox" id="task1">
+                  <span class="checkmark"></span>
+                </label>
+              </td>
+              <td>
+                <div class="task-item">
+                  <span>Лотерея №1</span>
+                </div>
+              </td>
+              <td class="lottery-cell">
+                <div class="lottery-controls" data-target="5" data-id="lottery1">
+                  <button class="arrow-btn up-arrow" type="button">↑</button>
+                  <span class="quantity-display">0</span>
+                  <button class="arrow-btn down-arrow" type="button">↓</button>
+                </div>
+              </td>
+              <td class="reward" data-with="4" data-without="2">2 BP</td>
+            </tr>
+            <tr data-id="task1">
+              <td class="status-cell">
+                <label class="custom-checkbox" for="task1">
+                  <input type="checkbox" class="task-checkbox" id="task1">
+                  <span class="checkmark"></span>
+                </label>
+              </td>
+              <td>
+                <div class="task-item">
+                  <span>Лотерея №1</span>
+                </div>
+              </td>
+              <td class="lottery-cell">
+                <div class="lottery-controls" data-target="5" data-id="lottery1">
+                  <button class="arrow-btn up-arrow" type="button">↑</button>
+                  <span class="quantity-display">0</span>
+                  <button class="arrow-btn down-arrow" type="button">↓</button>
+                </div>
+              </td>
+              <td class="reward" data-with="4" data-without="2">2 BP</td>
+            </tr>
+            <tr data-id="task1">
+              <td class="status-cell">
+                <label class="custom-checkbox" for="task1">
+                  <input type="checkbox" class="task-checkbox" id="task1">
+                  <span class="checkmark"></span>
+                </label>
+              </td>
+              <td>
+                <div class="task-item">
+                  <span>Лотерея №1</span>
+                </div>
+              </td>
+              <td class="lottery-cell">
+                <div class="lottery-controls" data-target="5" data-id="lottery1">
+                  <button class="arrow-btn up-arrow" type="button">↑</button>
+                  <span class="quantity-display">0</span>
+                  <button class="arrow-btn down-arrow" type="button">↓</button>
+                </div>
+              </td>
+              <td class="reward" data-with="4" data-without="2">2 BP</td>
+            </tr>
+            <tr data-id="task1">
+              <td class="status-cell">
+                <label class="custom-checkbox" for="task1">
+                  <input type="checkbox" class="task-checkbox" id="task1">
+                  <span class="checkmark"></span>
+                </label>
+              </td>
+              <td>
+                <div class="task-item">
+                  <span>Лотерея №1</span>
+                </div>
+              </td>
+              <td class="lottery-cell">
+                <div class="lottery-controls" data-target="5" data-id="lottery1">
+                  <button class="arrow-btn up-arrow" type="button">↑</button>
+                  <span class="quantity-display">0</span>
+                  <button class="arrow-btn down-arrow" type="button">↓</button>
+                </div>
+              </td>
+              <td class="reward" data-with="4" data-without="2">2 BP</td>
+            </tr>
+            <tr data-id="task1">
+              <td class="status-cell">
+                <label class="custom-checkbox" for="task1">
+                  <input type="checkbox" class="task-checkbox" id="task1">
+                  <span class="checkmark"></span>
+                </label>
+              </td>
+              <td>
+                <div class="task-item">
+                  <span>Лотерея №1</span>
+                </div>
+              </td>
+              <td class="lottery-cell">
+                <div class="lottery-controls" data-target="5" data-id="lottery1">
+                  <button class="arrow-btn up-arrow" type="button">↑</button>
+                  <span class="quantity-display">0</span>
+                  <button class="arrow-btn down-arrow" type="button">↓</button>
+                </div>
+              </td>
+              <td class="reward" data-with="4" data-without="2">2 BP</td>
+            </tr>
+            <tr data-id="task1">
+              <td class="status-cell">
+                <label class="custom-checkbox" for="task1">
+                  <input type="checkbox" class="task-checkbox" id="task1">
+                  <span class="checkmark"></span>
+                </label>
+              </td>
+              <td>
+                <div class="task-item">
+                  <span>Лотерея №1</span>
+                </div>
+              </td>
+              <td class="lottery-cell">
+                <div class="lottery-controls" data-target="5" data-id="lottery1">
+                  <button class="arrow-btn up-arrow" type="button">↑</button>
+                  <span class="quantity-display">0</span>
+                  <button class="arrow-btn down-arrow" type="button">↓</button>
+                </div>
+              </td>
+              <td class="reward" data-with="4" data-without="2">2 BP</td>
+            </tr>
+            <tr data-id="task1">
+              <td class="status-cell">
+                <label class="custom-checkbox" for="task1">
+                  <input type="checkbox" class="task-checkbox" id="task1">
+                  <span class="checkmark"></span>
+                </label>
+              </td>
+              <td>
+                <div class="task-item">
+                  <span>Лотерея №1</span>
+                </div>
+              </td>
+              <td class="lottery-cell">
+                <div class="lottery-controls" data-target="5" data-id="lottery1">
+                  <button class="arrow-btn up-arrow" type="button">↑</button>
+                  <span class="quantity-display">0</span>
+                  <button class="arrow-btn down-arrow" type="button">↓</button>
+                </div>
+              </td>
+              <td class="reward" data-with="4" data-without="2">2 BP</td>
+            </tr>
+            <tr data-id="task1">
+              <td class="status-cell">
+                <label class="custom-checkbox" for="task1">
+                  <input type="checkbox" class="task-checkbox" id="task1">
+                  <span class="checkmark"></span>
+                </label>
+              </td>
+              <td>
+                <div class="task-item">
+                  <span>Лотерея №1</span>
+                </div>
+              </td>
+              <td class="lottery-cell">
+                <div class="lottery-controls" data-target="5" data-id="lottery1">
+                  <button class="arrow-btn up-arrow" type="button">↑</button>
+                  <span class="quantity-display">0</span>
+                  <button class="arrow-btn down-arrow" type="button">↓</button>
+                </div>
+              </td>
+              <td class="reward" data-with="4" data-without="2">2 BP</td>
+            </tr>
+            <tr data-id="task1">
+              <td class="status-cell">
+                <label class="custom-checkbox" for="task1">
+                  <input type="checkbox" class="task-checkbox" id="task1">
+                  <span class="checkmark"></span>
+                </label>
+              </td>
+              <td>
+                <div class="task-item">
+                  <span>Лотерея №1</span>
+                </div>
+              </td>
+              <td class="lottery-cell">
+                <div class="lottery-controls" data-target="5" data-id="lottery1">
+                  <button class="arrow-btn up-arrow" type="button">↑</button>
+                  <span class="quantity-display">0</span>
+                  <button class="arrow-btn down-arrow" type="button">↓</button>
+                </div>
+              </td>
+              <td class="reward" data-with="4" data-without="2">2 BP</td>
+            </tr>
+            <tr data-id="task1">
+              <td class="status-cell">
+                <label class="custom-checkbox" for="task1">
+                  <input type="checkbox" class="task-checkbox" id="task1">
+                  <span class="checkmark"></span>
+                </label>
+              </td>
+              <td>
+                <div class="task-item">
+                  <span>Лотерея №1</span>
+                </div>
+              </td>
+              <td class="lottery-cell">
+                <div class="lottery-controls" data-target="5" data-id="lottery1">
+                  <button class="arrow-btn up-arrow" type="button">↑</button>
+                  <span class="quantity-display">0</span>
+                  <button class="arrow-btn down-arrow" type="button">↓</button>
+                </div>
+              </td>
+              <td class="reward" data-with="4" data-without="2">2 BP</td>
+            </tr>
+            <tr data-id="task1">
+              <td class="status-cell">
+                <label class="custom-checkbox" for="task1">
+                  <input type="checkbox" class="task-checkbox" id="task1">
+                  <span class="checkmark"></span>
+                </label>
+              </td>
+              <td>
+                <div class="task-item">
+                  <span>Лотерея №1</span>
+                </div>
+              </td>
+              <td class="lottery-cell">
+                <div class="lottery-controls" data-target="5" data-id="lottery1">
+                  <button class="arrow-btn up-arrow" type="button">↑</button>
+                  <span class="quantity-display">0</span>
+                  <button class="arrow-btn down-arrow" type="button">↓</button>
+                </div>
+              </td>
+              <td class="reward" data-with="4" data-without="2">2 BP</td>
+            </tr>
+            <tr data-id="task1">
+              <td class="status-cell">
+                <label class="custom-checkbox" for="task1">
+                  <input type="checkbox" class="task-checkbox" id="task1">
+                  <span class="checkmark"></span>
+                </label>
+              </td>
+              <td>
+                <div class="task-item">
+                  <span>Лотерея №1</span>
+                </div>
+              </td>
+              <td class="lottery-cell">
+                <div class="lottery-controls" data-target="5" data-id="lottery1">
+                  <button class="arrow-btn up-arrow" type="button">↑</button>
+                  <span class="quantity-display">0</span>
+                  <button class="arrow-btn down-arrow" type="button">↓</button>
+                </div>
+              </td>
+              <td class="reward" data-with="4" data-without="2">2 BP</td>
+            </tr>
+            <tr data-id="task1">
+              <td class="status-cell">
+                <label class="custom-checkbox" for="task1">
+                  <input type="checkbox" class="task-checkbox" id="task1">
+                  <span class="checkmark"></span>
+                </label>
+              </td>
+              <td>
+                <div class="task-item">
+                  <span>Лотерея №1</span>
+                </div>
+              </td>
+              <td class="lottery-cell">
+                <div class="lottery-controls" data-target="5" data-id="lottery1">
+                  <button class="arrow-btn up-arrow" type="button">↑</button>
+                  <span class="quantity-display">0</span>
+                  <button class="arrow-btn down-arrow" type="button">↓</button>
+                </div>
+              </td>
+              <td class="reward" data-with="4" data-without="2">2 BP</td>
+            </tr>
+            <tr data-id="task1">
+              <td class="status-cell">
+                <label class="custom-checkbox" for="task1">
+                  <input type="checkbox" class="task-checkbox" id="task1">
+                  <span class="checkmark"></span>
+                </label>
+              </td>
+              <td>
+                <div class="task-item">
+                  <span>Лотерея №1</span>
+                </div>
+              </td>
+              <td class="lottery-cell">
+                <div class="lottery-controls" data-target="5" data-id="lottery1">
+                  <button class="arrow-btn up-arrow" type="button">↑</button>
+                  <span class="quantity-display">0</span>
+                  <button class="arrow-btn down-arrow" type="button">↓</button>
+                </div>
+              </td>
+              <td class="reward" data-with="4" data-without="2">2 BP</td>
+            </tr>
+            <tr data-id="task1">
+              <td class="status-cell">
+                <label class="custom-checkbox" for="task1">
+                  <input type="checkbox" class="task-checkbox" id="task1">
+                  <span class="checkmark"></span>
+                </label>
+              </td>
+              <td>
+                <div class="task-item">
+                  <span>Лотерея №1</span>
+                </div>
+              </td>
+              <td class="lottery-cell">
+                <div class="lottery-controls" data-target="5" data-id="lottery1">
+                  <button class="arrow-btn up-arrow" type="button">↑</button>
+                  <span class="quantity-display">0</span>
+                  <button class="arrow-btn down-arrow" type="button">↓</button>
+                </div>
+              </td>
+              <td class="reward" data-with="4" data-without="2">2 BP</td>
+            </tr>
+            <tr data-id="task1">
+              <td class="status-cell">
+                <label class="custom-checkbox" for="task1">
+                  <input type="checkbox" class="task-checkbox" id="task1">
+                  <span class="checkmark"></span>
+                </label>
+              </td>
+              <td>
+                <div class="task-item">
+                  <span>Лотерея №1</span>
+                </div>
+              </td>
+              <td class="lottery-cell">
+                <div class="lottery-controls" data-target="5" data-id="lottery1">
+                  <button class="arrow-btn up-arrow" type="button">↑</button>
+                  <span class="quantity-display">0</span>
+                  <button class="arrow-btn down-arrow" type="button">↓</button>
+                </div>
+              </td>
+              <td class="reward" data-with="4" data-without="2">2 BP</td>
+            </tr>
+            <tr data-id="task1">
+              <td class="status-cell">
+                <label class="custom-checkbox" for="task1">
+                  <input type="checkbox" class="task-checkbox" id="task1">
+                  <span class="checkmark"></span>
+                </label>
+              </td>
+              <td>
+                <div class="task-item">
+                  <span>Лотерея №1</span>
+                </div>
+              </td>
+              <td class="lottery-cell">
+                <div class="lottery-controls" data-target="5" data-id="lottery1">
+                  <button class="arrow-btn up-arrow" type="button">↑</button>
+                  <span class="quantity-display">0</span>
+                  <button class="arrow-btn down-arrow" type="button">↓</button>
+                </div>
+              </td>
+              <td class="reward" data-with="4" data-without="2">2 BP</td>
+            </tr>
             <tr data-id="task1">
               <td class="status-cell">
                 <label class="custom-checkbox" for="task1">
@@ -103,9 +620,11 @@
           </tbody>
           </table>
         </table>
+        </div>
       </div>
     </div>
   </div>
   <script src="script.js"></script>
+</div>
 </body>
 </html>
