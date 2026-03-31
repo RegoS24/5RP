@@ -660,6 +660,7 @@ color: var(--text-color)
 }
 
 .hide-on-scroll.hidden {
+  visibility: hidden;
   opacity: 0;
   transform: translateY(100%);
 }
