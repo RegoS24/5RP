@@ -1,27 +1,25 @@
+
+* {
+  -moz-user-select: none;    /* Firefox */
+  -ms-user-select: none;     /* Internet Explorer/Edge */
+  -webkit-tap-highlight-color: transparent; /* Убирает подсветку тапа */
+  -webkit-touch-callout: none; /* Запрещает появление контекстного меню при долгом тапе */
+  -webkit-user-select: none; /* Отключает выделение текста */
+  user-select: none; /* Стандартное свойство для отключения выделения текста */
+}
+
 @media (max-width: 480px) {
-  :root {
-    --checkbox-size: 30px;
-    --lottery-btn-size: 30px;
-    --lottery-quantity-min-width: 30px;
-  }
-  * {
-    -moz-user-select: none;    /* Firefox */
-   -ms-user-select: none;     /* Internet Explorer/Edge */
-    -webkit-tap-highlight-color: transparent; /* Убирает подсветку тапа */
-   -webkit-touch-callout: none; /* Запрещает появление контекстного меню при долгом тапе */
-   -webkit-user-select: none; /* Отключает выделение текста */
-   user-select: none; /* Стандартное свойство для отключения выделения текста */
-  }
+
   /* Базовые переменные для светлой темы */
   :root {
   --checkbox-size: 26px;
   --lottery-quantity-min-width: 35px;
-  --lottery-btn-size: 26px;
+  --lottery-btn-size: 35px;
   --bg-color: #ffffff;
   --text-color: #2b2b2b;
   --header-color: #2b2b2b;
-  --table-bg: #000000;
-  --table-bgd: #f3bc0710;
+  --table-bg: #6b6b6b;
+  --table-bgd: #7c7c7c1f;
   --table-border: #ffffff;
   --button-bg: transparent;
   --button-text: #2b2b2b;
@@ -46,12 +44,12 @@
     --text-color: #f3f3f3;
     --header-color: #f3f3f3;
     --table-bg: #2b2b2b96;
-    --table-bgd: #f3bc0705;
+    --table-bgd: #2b2b2b2d;
     --table-border: #252525;
     --button-bg: transparent;
     --button-text: #ffffff;
     --checkbox-text: #a8a8a8;
-    --checkbox-border: #adb5bd;
+    --checkbox-border: #bbbbbb;
     --checkbox-checked: #f3bc07;
     --theme-btn-bg: #7a7a7a;
    --theme-btn-text: white;
@@ -59,7 +57,7 @@
     --background-overlay-color: rgba(0, 0, 0, 0.795);
     --progress-bg: #495057;
     --progress-fill-gradient: linear-gradient(90deg, #f3bc07, #e0b005);
-    --progress-high-color: #ffd166;
+    --progress-high-color: #ffb300a9;
    --text-color-progress: #f3f3f3;
     --reward-color: #f3f3f3;
     --quantity-display: #f3f3f3;
@@ -68,15 +66,15 @@
   body {
     font-family: Arial, sans-serif;
     font-size: 14px;
-   color: var(--text-color);
-   background-color: var(--bg-color);
-   background-size: cover;
-   background-position: center;
-   background-attachment: fixed;
-   background-repeat: no-repeat;
-   margin: 0;
-   transition: all 0.3s ease;
-   position: relative; /* Для корректной работы ::before */
+    color: var(--text-color);
+    background-color: var(--bg-color);
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    margin: 0;
+    transition: all 0.3s ease;
+    position: relative; /* Для корректной работы ::before */
   }
 
   .logo-toggle {
@@ -84,7 +82,6 @@
     height: 50px;
     border-radius: 50%; /* Круглая кнопка */
     background: var(--checkbox-checked);
-    color: white;
     font-size: 18px;
     cursor: pointer;
     display: flex;
@@ -120,10 +117,11 @@
 
   /* Стили для счётчиков — одна линия, выравнивание по краям */
   .total {
-    height: 100px;
+    height: 120px;
     position: sticky;
     top: 0; /* Закрепляется у верхнего края экрана */
     z-index: 100; /* Чтобы был поверх других элементов */
+    flex-direction: column;
     display: flex;
     justify-content: space-between; /* Равномерное распределение с отступами по краям */
     align-items: center; /* Вертикальное выравнивание по центру */
@@ -148,13 +146,13 @@
 
   .left-cell {
     text-align: left;
-    font-size: 18px;
+    font-size: 14px;
     font-weight: 550;
   }
 
   .right-cell {
     text-align: right;
-    font-size: 18px;
+    font-size: 14px;
     font-weight: 550;
   }
 
@@ -163,21 +161,23 @@
     width: 100%;
     display: flex;
     flex-direction: column;
-    gap: 8px;
   }
 
   .progress-bar {
     position: relative;
     width: 100%;
-    height: 30px;
+    height: 24px;
+    border-radius: 12px;
     background: var(--progress-bg);
     border-radius: 15px;
     overflow: hidden;
     margin-bottom: 10px;
   }
 
+
   .progress-fill {
     height: 100%;
+    border-radius: 5px;
     background: var(--progress-fill-gradient);
     transition: width 0.5s ease-in-out, background-color 0.3s ease;
     width: 0%;
@@ -206,7 +206,7 @@
     justify-content: center;
     color: var(--text-color);
     font-weight: bold;
-    font-size: 11px;
+    font-size: 14px;
     z-index: 2;
   }
 
@@ -262,6 +262,13 @@
     color: var(--text-color);
     letter-spacing: 0.5px;
     border-bottom: 2px solid var(--table-border);
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 11px;
+    height: auto;
+    text-align: center;
   }
 
   [data-theme="dark"] .tasks-container {
@@ -364,18 +371,6 @@
     vertical-align: middle;
   }
 
-  .custom-checkbox input[type="checkbox"] {
-    display: none;
-  }
-
-  .custom-vipcheckbox input[type="checkbox"] {
-    display: none;
-  }
-
-  .custom-x2checkbox input[type="checkbox"] {
-    display: none;
-  }
-
   /* Кастомный чекбокс */
   .checkmark {
     width: var(--checkbox-size);
@@ -437,7 +432,7 @@
     left: 50%;
     transform: translate(-50%, -50%);
     color: white;
-    font-size: 18px;
+    font-size: 22px;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
   }
 
@@ -477,20 +472,6 @@
     color: #adb5bd !important;
   }
 
-  /* Стили для .task-item — зона клика для чекбокса */
-  .task-item {
-    cursor: pointer;
-    border-radius: 4px;
-    transition: all 0.2s ease;
-    position: relative;
-    text-align: center;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-  }
-
   /* Убираем hover‑эффект для выполненных заданий */
   .done .task-item:hover,
   .completed .task-item:hover {
@@ -516,30 +497,56 @@
     vertical-align: middle;
   }
 
-  .arrow-btn {
+  .down-arrow {
+    padding: 0;
+    flex-shrink: 0;
+    margin: 2px 0;
+    font-size: 22px;
+    border-radius: 10px;
     width: var(--lottery-btn-size);
     height: var(--lottery-btn-size);
     border: 2px solid var(--table-border);
     background: var(--table-bg);
     color: var(--text-color);
     cursor: pointer;
-    border-radius: 4px;
-    font-size: 18px;
     transition: all 0.2s ease;
     display: flex;
     align-items: center;
     justify-content: center;
+  }
+
+  .up-arrow {
     padding: 0;
     flex-shrink: 0;
+    margin: 2px 0;
+    font-size: 22px;
+    border-radius: 10px;
+    width: var(--lottery-btn-size);
+    height: var(--lottery-btn-size);
+    border: 2px solid var(--table-border);
+    background: var(--table-bg);
+    color: var(--text-color);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .arrow-btn:hover {
     background: #f3bc071a;
-    border-color: #f3bc07;
+    border-color: var(--checkbox-checked);
   }
 
   .arrow-btn:active {
     transform: scale(0.95);
+  }
+
+  disabled,
+  [disabled] {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
   }
 
   .quantity-display {
@@ -549,14 +556,6 @@
     text-align: center;
     font-weight: bold;
     color: var(--quantity-display);
-  }
-
-  /* Завершённый счётчик лотереи */
-  .lottery-controls.completed {
-    background-color: #f3bc071a;
-    border: 1px solid #f3bc07;
-    border-radius: 4px;
-    padding: 2px 6px;
   }
 
   /* Неактивные кнопки */
@@ -584,13 +583,6 @@
 
   [data-theme="dark"] #resetBtn {
     box-shadow: inset 4px 4px 8px rgba(0, 0, 0, 0.4), inset -4px -4px 8px rgba(0, 0, 0, 0.4);
-  }
-  /* Награды */
-  .reward {
-    text-align: center;
-    vertical-align: middle;
-    font-weight: bold;
-    color: var(--reward-color);
   }
 
   .hide-on-scroll {
@@ -637,41 +629,14 @@
     font-weight: 550;
   }
 
-  /* Счётчики — делаем вертикальным стеком */
-  .total {
-    flex-direction: column;
-    align-items: flex-start;
-  }
+
 
   #totalDisplay, #remainingDisplay {
-    font-size: 15px;
+    font-size: 18px;
     font-weight: 550;
     color: var(--checkbox-checked);
     align-items: center;
     min-width: auto;
-  }
-
-  .left-cell {
-    text-align: left;
-    font-size: 12px;
-    font-weight: 550;
-  }
-
-  .right-cell {
-    text-align: right;
-    font-size: 12px;
-    font-weight: 550;
-  }
-
-  /* Прогресс‑бар — уменьшаем высоту */
-  .progress-container {
-    padding: 10px 0;
-  }
-
-  .progress-bar {
-    width: 100%;
-    height: 14px;
-    border-radius: 7px;
   }
 
   .progress-text {
@@ -690,23 +655,6 @@
     width: 100%;
     flex: none;
   }
-
-  .tasks-container {
-    height: 35px; /* Высота для контента */
-    border-radius: 8px 8px 0 0; /* Скругляем все углы */
-  }
-
-  .table-header {
-    position: fixed;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 11px;
-    height: auto;
-    text-align: center;
-  }
-
-  
 
   .tasks-column th,
   .tasks-column td {
@@ -729,10 +677,6 @@
     height: var(--checkbox-size);
   }
 
-  .custom-checkbox input[type="checkbox"]:checked + .checkmark::after {
-    font-size: 14px; /* Галочка */
-  }
-
   /* Лотерея — перестраиваем в строку */
   .lottery-controls {
     flex-wrap: nowrap;
@@ -740,14 +684,6 @@
     gap: 6px;
     margin-left: 0;
     width: 100%;
-  }
-
-  .arrow-btn {
-    width: var(--lottery-btn-size);
-    height: var(--lottery-btn-size);
-    margin: 2px 0;
-    font-size: 12px;
-    border-radius: 6px;
   }
 
   .quantity-display {
@@ -765,21 +701,10 @@
 
   /* Награды — улучшаем читаемость */
   .reward {
+    padding:  0 10px;
     font-weight: bold;
     color: var(--reward-color);
     font-size: 13px;
-  }
-
-  /* Анимации — упрощаем для производительности */
-  @keyframes scaleIn {
-    from {
-      transform: scale(0.9);
-      opacity: 0;
-    }
-    to {
-      transform: scale(1);
-      opacity: 1;
-    }
   }
 
   /* Убираем сложные тени для экономии ресурсов */
@@ -819,12 +744,3 @@
   .quantity-display.animated {
     animation: highlight 0.5s ease-out;
   }
-
-  @keyframes highlight {
-    0% {
-      background-color: rgba(243, 188, 7, 0.2);
-    }
-    100% {
-      background-color: transparent;
-    }
-}
