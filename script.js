@@ -25,28 +25,29 @@ document.addEventListener("DOMContentLoaded", function () {
     sortableInstance.option("disabled", !isEditing);
     });
 
-    // 2. Инициализация SortableJS
     if (taskBody && typeof Sortable !== 'undefined') {
         sortableInstance = new Sortable(taskBody, {
             animation: 250,
             handle: '.drag-handle', 
             forceFallback: true,
-            fallbackOnBody: true,
+            fallbackOnBody: false, // Удерживает клон внутри родителя
             fallbackClass: "sortable-drag",
-            ghostClass: "sortable-ghost",
-            disabled: true,
+            disabled: true, // Включается программно через drag-mode-on
             
             scroll: true,
-            scrollSensitivity: 100,
-            scrollSpeed: 10,
-            bubbleScroll: false,
+            scrollSensitivity: 150, // Начнет скроллить за 150px до края
+            scrollSpeed: 20,        // 10 может быть медленновато, 20 — оптимально
+            bubbleScroll: true,     // ОБЯЗАТЕЛЬНО true, чтобы скроллился body/window
+    
+            ghostClass: 'sortable-ghost',
+            dragClass: 'sortable-drag',
             
             onStart: () => {
                 document.body.classList.add('is-dragging');
             },
             onEnd: () => {
                 document.body.classList.remove('is-dragging');
-                saveAllData(); // Сохраняем порядок после перетаскивания
+                saveAllData(); // Сохраняем порядок
             }
         });
     }
