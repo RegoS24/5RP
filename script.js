@@ -4,6 +4,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const x2Checkbox = document.getElementById("x2Checkbox");
     const themeBtn = document.getElementById("themeToggle");
     const resetBtn = document.getElementById("resetBtn");
+    const dragToggle = document.getElementById('dragToggle');
     const taskBody = document.getElementById("taskBody");
     const dragBtn = document.getElementById("dragToggle");
     const dragIcon = document.getElementById("dragIcon");
@@ -16,11 +17,19 @@ document.addEventListener("DOMContentLoaded", function () {
     let isDragEnabled = false;
     let sortableInstance;
 
+    // 1. Переключение режима
+    dragToggle.addEventListener('click', () => {
+    const isEditing = document.body.classList.toggle('drag-mode-on');
+    
+    // Включаем/выключаем сам Sortable
+    sortableInstance.option("disabled", !isEditing);
+    });
+
     // 2. Инициализация SortableJS
     if (taskBody && typeof Sortable !== 'undefined') {
         sortableInstance = new Sortable(taskBody, {
             animation: 250,
-            handle: '.left-cell', 
+            handle: '.drag-handle', 
             forceFallback: true,
             fallbackOnBody: true,
             fallbackClass: "sortable-drag",
@@ -144,15 +153,28 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     // 5. Логика кнопки перетаскивания
+    // 5. Логика режима редактирования (Перетаскивания)
     if (dragBtn) {
         dragBtn.addEventListener('click', () => {
+            // 1. Переключаем состояние
             isDragEnabled = !isDragEnabled;
-            if (sortableInstance) sortableInstance.option("disabled", !isDragEnabled);
+            
+            // 2. Переключаем классы визуализации
             dragBtn.classList.toggle('active', isDragEnabled);
             document.body.classList.toggle('drag-mode-on', isDragEnabled);
+            
+            // 3. Включаем/выключаем SortableJS
+            if (sortableInstance) {
+                sortableInstance.option("disabled", !isDragEnabled);
+            }
+            
+            // 4. Меняем иконку
             if (dragIcon) {
-                dragIcon.classList.toggle('fi-rr-edit', !isDragEnabled);
-                dragIcon.classList.toggle('fi-rr-padlock-check', isDragEnabled);
+                if (isDragEnabled) {
+                    dragIcon.classList.replace('fi-rr-edit', 'fi-rr-padlock-check');
+                } else {
+                    dragIcon.classList.replace('fi-rr-padlock-check', 'fi-rr-edit');
+                }
             }
         });
     }

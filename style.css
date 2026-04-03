@@ -61,6 +61,7 @@ body {
   color: var(--button-text);
   transition: all 0.3s ease;
   min-height: 100vh;
+  overflow-x: hidden;
 }
 
 /* 2. КОНТЕЙНЕР: Центрируем и задаем базу */
@@ -175,6 +176,7 @@ input[type="checkbox"]:checked + .x2checkmark {
 }
 
 .tasks-column {
+  width: 100%;
   margin: 0 auto 80px auto;
   table-layout: fixed; /* ГАРАНТИРУЕТ, что колонки будут иметь заданную ширину % */
   border-collapse: collapse;
@@ -194,6 +196,8 @@ input[type="checkbox"]:checked + .x2checkmark {
 .checkbox-cell { width: 20%; min-width: 50px; text-align: center; }
 
 .left-cell {
+  width: auto;
+  text-align: left;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -215,15 +219,19 @@ input[type="checkbox"]:checked + .x2checkmark {
 
 .sortable-drag .checkbox-cell {
   width: 60px !important;
+  display: table-cell !important;
 }
 
 /* Пустое место (куда упадет карточка) */
-.sortable-ghost {
-  opacity: 0.2 !important;
-  background-color: var(--checkbox-border) !important;
+.sortable-ghost .left-cell,
+.sortable-ghost .checkbox-cell {
+  background-color: var(--checkbox-checked) !important;
+    opacity: 0.3 !important; /* Настрой уровень под себя */
 }
 
 .reward {
+  width: 60px; 
+  text-align: center;
   font-variant-numeric: tabular-nums;
   font-size: 14px;
   font-weight: 600;
@@ -309,7 +317,8 @@ input[type="checkbox"]:checked + .x2checkmark {
 }
 
 .checkbox-cell {
-  width: 10%;
+  width: 60px;
+  min-width: 60px;
   text-align: center;
   min-width: 60px; 
 }
@@ -323,6 +332,7 @@ input[type="checkbox"]:checked + .x2checkmark {
 }
 
 .lottery-cell {
+  width: 120px;
   text-align: center;
 }
 
@@ -437,13 +447,15 @@ input[type="checkbox"]:checked + .x2checkmark {
 
 /* 1. Когда режим включен (кнопка активна) */
 body.drag-mode-on .left-cell {
-  cursor: grab !important;
-  user-select: none !important;
-  -webkit-user-select: none !important;
+  width: calc(100% - 60px) !important; 
+  max-width: 420px !important;
+  padding: 15px;
+  display: table-cell !important;
+  box-sizing: border-box;
 }
 
 /* 2. Когда зажали левую кнопку мыши на ячейке */
-body.drag-mode-on .left-cell:active {
+body.drag-mode-on .drag-handle:active {
   cursor: grabbing !important;
 }
 
@@ -458,6 +470,7 @@ body.is-dragging * {
   display: table !important; /* Критично: заставляем клон работать как таблица */
   width: 100% !important;
   max-width: 480px !important;
+  min-width: 480px !important;
   table-layout: fixed !important; /* Чтобы проценты ширины внутри работали */
   opacity: 1 !important;
   background-color: var(--table-bgd) !important;
@@ -468,48 +481,70 @@ body.is-dragging * {
   border-collapse: collapse; /* Чтобы не было лишних отступов */
 }
 
-/* Скрываем пустое место (куда упадет карточка) */
-.sortable-ghost {
-  opacity: 0.2 !important;
-  background-color: var(--checkbox-border) !important;
+/* --- РЕЖИМ РЕДАКТИРОВАНИЯ (СКРЫТИЕ КОЛОНОК) --- */
+
+/* 1. Скрыто по умолчанию */
+.drag-handle {
+    display: none; 
+    cursor: grab;
+    font-size: 20px;
+    padding: 5px;
+    line-height: 1;
+    color: var(--checkbox-checked); /* или любой заметный цвет */
 }
 
-/* --- РЕЖИМ РЕДАКТИРОВАНИЯ (СКРЫТИЕ КОЛОНОК) --- */
+/* 2. Показываем, когда включен режим редактирования */
+body.drag-mode-on .drag-handle {
+    display: inline-block !important;
+}
+
+/* 3. Скрываем чекбокс, чтобы он не мешал кнопке */
+body.drag-mode-on .custom-checkbox {
+    display: none !important;
+}
 
 /* Когда на body активен класс .drag-mode-on */
 body.drag-mode-on .reward,
-body.drag-mode-on .lottery-cell,
+body.drag-mode-on .lottery-cell {
+    display: none !important;
+}
+
 body.drag-mode-on .checkbox-cell {
-    display: none !important; /* Полностью убираем колонки из разметки */
+  display: table-cell !important; /* Гарантируем видимость ячейки */
+  width: 60px !important;
+  max-width: 60px !important;
+  text-align: center;
+  vertical-align: middle; /* Центровка по вертикали */
 }
 
-/* Расширяем название задания на всю ширину таблицы для удобства захвата */
-body.drag-mode-on .left-cell {
-  width: 480px !important; /* Название занимает все доступное место */
-  padding: 15px;
-  background: var(--table-bgd); /* Можно добавить легкий фон для наглядности */
-  box-sizing: border-box; /* Чтобы padding не раздувал ширину больше 480px */
+body.drag-mode-on .tasks-column {
+  width: 100% !important;
+  max-width: 480px;
+  table-layout: fixed;
 }
 
-body.drag-mode-on .table-wrapper {
-  max-height: 85vh;         /* Ограничиваем высоту (например, 70% экрана) */
-  overflow-y: scroll;       /* ПРИНУДИТЕЛЬНО показываем вертикальный скролл */
+/* Скрываем вообще все ячейки, кроме первой и последней */
+body.drag-mode-on .tasks-column td:not(.left-cell):not(.checkbox-cell) {
+    display: none !important;
 }
 
-/* Стилизация самого скроллбара (как в современных браузерах) */
-body.drag-mode-on .table-wrapper::-webkit-scrollbar {
-    width: 25px;               /* Ширина полосы прокрутки */
+/* Скрываем награды и контроли лотереи внутри клона, который "летит" за мышкой */
+.sortable-drag .reward,
+.sortable-drag .lottery-cell,
+.sortable-drag td:not(.left-cell):not(.checkbox-cell) {
+    display: none !important;
 }
 
-body.drag-mode-on .table-wrapper::-webkit-scrollbar-track {
-    background: rgba(0, 0, 0, 0.05); /* Цвет дорожки */
-    border-radius: 10px;
+.sortable-drag .left-cell {
+  width: 420px !important;
+  display: table-cell !important;
 }
 
-body.drag-mode-on .table-wrapper::-webkit-scrollbar-thumb {
-    background-color: var(--checkbox-checked); /* Твой основной цвет */
-    border-radius: 10px;
-    border: 2px solid transparent; /* Отступ внутри дорожки */
+/* То же самое для "призрака" (место, куда упадет строка) */
+.sortable-ghost .reward,
+.sortable-ghost .lottery-cell,
+.sortable-ghost .custom-checkbox {
+    display: none !important;
 }
 
 /* Скрываем заголовки колонок, если они у тебя есть в <thead> */
@@ -526,22 +561,10 @@ body.drag-mode-on th:not(:first-child) {
 body.drag-mode-on .sortable-drag {
   width: 480px !important;
   min-width: 480px !important;
-  display: block !important; /* В режиме одной колонки display: table не нужен */
+  table-layout: fixed !important;
 }
 
 body.drag-mode-on .sortable-drag td {
   width: 480px !important;
   display: table-cell !important;
-}
-
-body.drag-mode-on .reward,
-body.drag-mode-on .lottery-cell,
-body.drag-mode-on .checkbox-cell {
-    display: none !important;
-    
-}
-
-body.drag-mode-on table {
-    width: 100% !important;
-    table-layout: fixed;
 }
