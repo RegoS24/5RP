@@ -28,11 +28,13 @@ document.addEventListener("DOMContentLoaded", function () {
             disabled: true,
             
             scroll: true,
-            scrollSensitivity: 50,
+            scrollSensitivity: 100,
             scrollSpeed: 10,
             bubbleScroll: false,
             
-            onStart: () => document.body.classList.add('is-dragging'),
+            onStart: () => {
+                document.body.classList.add('is-dragging');
+            },
             onEnd: () => {
                 document.body.classList.remove('is-dragging');
                 saveAllData(); // Сохраняем порядок после перетаскивания

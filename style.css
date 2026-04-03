@@ -161,7 +161,9 @@ input[type="checkbox"]:checked + .x2checkmark {
 
 .table-wrapper {
   flex: 1;
+  position: relative;
   overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .table-wrapper::-webkit-scrollbar {
@@ -429,6 +431,8 @@ input[type="checkbox"]:checked + .x2checkmark {
   border-color: transparent;
 }
 
+
+
 /* --- УПРАВЛЕНИЕ КУРСОРOM И ЗАХВАТОМ --- */
 
 /* 1. Когда режим включен (кнопка активна) */
@@ -468,4 +472,76 @@ body.is-dragging * {
 .sortable-ghost {
   opacity: 0.2 !important;
   background-color: var(--checkbox-border) !important;
+}
+
+/* --- РЕЖИМ РЕДАКТИРОВАНИЯ (СКРЫТИЕ КОЛОНОК) --- */
+
+/* Когда на body активен класс .drag-mode-on */
+body.drag-mode-on .reward,
+body.drag-mode-on .lottery-cell,
+body.drag-mode-on .checkbox-cell {
+    display: none !important; /* Полностью убираем колонки из разметки */
+}
+
+/* Расширяем название задания на всю ширину таблицы для удобства захвата */
+body.drag-mode-on .left-cell {
+  width: 480px !important; /* Название занимает все доступное место */
+  padding: 15px;
+  background: var(--table-bgd); /* Можно добавить легкий фон для наглядности */
+  box-sizing: border-box; /* Чтобы padding не раздувал ширину больше 480px */
+}
+
+body.drag-mode-on .table-wrapper {
+  max-height: 85vh;         /* Ограничиваем высоту (например, 70% экрана) */
+  overflow-y: scroll;       /* ПРИНУДИТЕЛЬНО показываем вертикальный скролл */
+}
+
+/* Стилизация самого скроллбара (как в современных браузерах) */
+body.drag-mode-on .table-wrapper::-webkit-scrollbar {
+    width: 25px;               /* Ширина полосы прокрутки */
+}
+
+body.drag-mode-on .table-wrapper::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.05); /* Цвет дорожки */
+    border-radius: 10px;
+}
+
+body.drag-mode-on .table-wrapper::-webkit-scrollbar-thumb {
+    background-color: var(--checkbox-checked); /* Твой основной цвет */
+    border-radius: 10px;
+    border: 2px solid transparent; /* Отступ внутри дорожки */
+}
+
+/* Скрываем заголовки колонок, если они у тебя есть в <thead> */
+body.drag-mode-on th:not(:first-child) {
+    display: none;
+}
+
+/* Плавный переход для всей таблицы (необязательно, но приятно) */
+.table-wrapper table {
+    transition: all 0.3s ease;
+}
+
+/* Стиль строки в момент перетаскивания в режиме Edit */
+body.drag-mode-on .sortable-drag {
+  width: 480px !important;
+  min-width: 480px !important;
+  display: block !important; /* В режиме одной колонки display: table не нужен */
+}
+
+body.drag-mode-on .sortable-drag td {
+  width: 480px !important;
+  display: table-cell !important;
+}
+
+body.drag-mode-on .reward,
+body.drag-mode-on .lottery-cell,
+body.drag-mode-on .checkbox-cell {
+    display: none !important;
+    
+}
+
+body.drag-mode-on table {
+    width: 100% !important;
+    table-layout: fixed;
 }
