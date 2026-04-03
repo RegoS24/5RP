@@ -1,136 +1,214 @@
 document.addEventListener("DOMContentLoaded", function () {
-  const vipCheckbox = document.getElementById("vipCheckbox");
-  const x2Checkbox = document.getElementById("x2Checkbox");
-  const totalDisplay = document.getElementById("totalDisplay");
-  const remainingDisplay = document.getElementById("remainingDisplay");
-  const resetBtn = document.getElementById("resetBtn");
-  const themeToggle = document.getElementById("themeToggle");
-  const progressFill = document.getElementById("progressFill");
-  const progressPercentElement = document.getElementById("progressPercent");
+    // 1. Элементы управления и отображения
+    const vipCheckbox = document.getElementById("vipCheckbox");
+    const x2Checkbox = document.getElementById("x2Checkbox");
+    const themeBtn = document.getElementById("themeToggle");
+    const resetBtn = document.getElementById("resetBtn");
+    const taskBody = document.getElementById("taskBody");
+    const dragBtn = document.getElementById("dragToggle");
+    const dragIcon = document.getElementById("dragIcon");
+    
+    const totalDisplay = document.getElementById("totalDisplay");
+    const remainingDisplay = document.getElementById("remainingDisplay");
+    const progressFill = document.getElementById("progressFill");
+    const progressPercent = document.getElementById("progressPercent");
 
-  const getCheckboxes = () => document.querySelectorAll('.tasks-column input[type="checkbox"]');
+    let isDragEnabled = false;
+    let sortableInstance;
 
-  function calculateReward(rewardCell) {
-    if (!rewardCell) return 0;
-    const base = parseInt(rewardCell.getAttribute("data-without")) || 0;
-    const vipValue = parseInt(rewardCell.getAttribute("data-with")) || 0;
-    let reward = vipCheckbox.checked ? vipValue : base;
-    return x2Checkbox.checked ? reward * 2 : reward;
-  }
-
-  function updateDisplay() {
-    let total = 0;
-    let remaining = 0;
-    let checkedCount = 0;
-    const checkboxes = getCheckboxes();
-
-    checkboxes.forEach((checkbox) => {
-      const row = checkbox.closest("tr");
-      const rewardCell = row.querySelector(".reward");
-      const reward = calculateReward(rewardCell);
-
-      if (rewardCell) rewardCell.textContent = reward + " BP";
-
-      if (checkbox.checked) {
-        total += reward;
-        checkedCount++;
-        row.classList.add("done");
-      } else {
-        remaining += reward;
-        row.classList.remove("done");
-      }
-    });
-
-    totalDisplay.textContent = total + " BP";
-    remainingDisplay.textContent = remaining + " BP";
-
-    if (checkboxes.length > 0) {
-      const progressPercent = Math.min((checkedCount / checkboxes.length) * 100, 100);
-      progressFill.style.width = progressPercent + "%";
-      progressPercentElement.textContent = Math.round(progressPercent) + "%";
-      progressFill.style.background = progressPercent >= 100 
-        ? "var(--progress-high-color)" 
-        : "var(--progress-fill-gradient)";
+    // 2. Инициализация SortableJS
+    if (taskBody && typeof Sortable !== 'undefined') {
+        sortableInstance = new Sortable(taskBody, {
+            animation: 250,
+            handle: '.left-cell', 
+            forceFallback: true,
+            fallbackOnBody: true,
+            fallbackClass: "sortable-drag",
+            ghostClass: "sortable-ghost",
+            disabled: true,
+            
+            scroll: true,
+            scrollSensitivity: 50,
+            scrollSpeed: 10,
+            bubbleScroll: false,
+            
+            onStart: () => document.body.classList.add('is-dragging'),
+            onEnd: () => {
+                document.body.classList.remove('is-dragging');
+                saveAllData(); // Сохраняем порядок после перетаскивания
+            }
+        });
     }
-  }
+    
 
-  // Настройка лотерей
-  document.querySelectorAll(".lottery-controls").forEach((counter) => {
-    const upBtn = counter.querySelector(".up-arrow");
-    const downBtn = counter.querySelector(".down-arrow");
-    const display = counter.querySelector(".quantity-display");
-    const target = parseInt(counter.getAttribute("data-target")) || 0;
-    const checkbox = counter.closest("tr").querySelector('input[type="checkbox"]');
+    // 3. Функции LocalStorage
+    function saveAllData() {
+        const data = {
+            tasks: [],
+            settings: {
+                vip: vipCheckbox.checked,
+                x2: x2Checkbox.checked,
+                theme: document.body.getAttribute("data-theme")
+            },
+            order: []
+        };
 
-    function updateButtonStates() {
-      const current = parseInt(display.textContent) || 0;
-      
-      downBtn.disabled = current === 0;
-      
-      if (current === target) {
-        upBtn.disabled = true;
-        if(!checkbox.checked) checkbox.checked = true;
-      } else {
-        upBtn.disabled = false;
-        if(checkbox.checked) checkbox.checked = false;
-      }
-      updateDisplay();
+        document.querySelectorAll("#taskBody tr").forEach((row) => {
+            const taskId = row.querySelector(".left-cell").textContent;
+            const isChecked = row.querySelector(".task-checkbox").checked;
+            const quantity = row.querySelector(".quantity-display") ? row.querySelector(".quantity-display").textContent : "0";
+            
+            data.tasks.push({ id: taskId, checked: isChecked, qty: quantity });
+            data.order.push(taskId);
+        });
+
+        localStorage.setItem("bpTrackerData", JSON.stringify(data));
     }
 
-    upBtn.addEventListener("click", () => {
-      let current = parseInt(display.textContent) || 0;
-      if (current < target) {
-        display.textContent = current + 1;
-        updateButtonStates();
-      }
-    });
+    function loadAllData() {
+        const saved = localStorage.getItem("bpTrackerData");
+        if (!saved) {
+            updateProgress();
+            return;
+        }
 
-    downBtn.addEventListener("click", () => {
-      let current = parseInt(display.textContent) || 0;
-      if (current > 0) {
-        display.textContent = current - 1;
-        updateButtonStates();
-      }
-    });
+        const data = JSON.parse(saved);
 
-    checkbox.addEventListener("change", function () {
-      display.textContent = this.checked ? target : "0";
-      updateButtonStates();
-    });
+        // Восстанавливаем настройки
+        vipCheckbox.checked = data.settings.vip;
+        x2Checkbox.checked = data.settings.x2;
+        document.body.setAttribute("data-theme", data.settings.theme);
+        themeBtn.innerHTML = data.settings.theme === "dark" ? '<i class="fi fi-br-sun"></i>' : '<i class="fi fi-br-eclipse-alt"></i>';
 
-    updateButtonStates();
-  });
+        // Восстанавливаем порядок
+        const rows = Array.from(taskBody.querySelectorAll("tr"));
+        data.order.forEach(taskId => {
+            const row = rows.find(r => r.querySelector(".left-cell").textContent === taskId);
+            if (row) {
+                const taskInfo = data.tasks.find(t => t.id === taskId);
+                row.querySelector(".task-checkbox").checked = taskInfo.checked;
+                const qtyDisp = row.querySelector(".quantity-display");
+                if (qtyDisp) qtyDisp.textContent = taskInfo.qty;
+                taskBody.appendChild(row);
+            }
+        });
 
-  document.querySelector('.tasks-column').addEventListener("change", (e) => {
-    if (e.target.classList.contains('task-checkbox')) {
-      updateDisplay();
+        updateProgress();
     }
-  });
 
-  vipCheckbox.addEventListener("change", updateDisplay);
-  x2Checkbox.addEventListener("change", updateDisplay);
+    // 4. Функция расчета прогресса
+    function updateProgress() {
+        let totalBP = 0;
+        let totalPossibleBP = 0;
+        const allRows = document.querySelectorAll("#taskBody tr");
+    
+        allRows.forEach(row => {
+            const cb = row.querySelector(".task-checkbox");
+            const rewardCell = row.querySelector(".reward");
+            const quantityDisplay = row.querySelector(".quantity-display");
+            const lotteryButtons = row.querySelectorAll(".arrow-btn"); // Находим кнопки управления
+    
+            if (!cb || !rewardCell) return;
+    
+            const baseValue = parseInt(rewardCell.getAttribute("data-without")) || 0;
+            const vipValue = parseInt(rewardCell.getAttribute("data-with")) || 0;
+    
+            let currentReward = vipCheckbox.checked ? vipValue : baseValue;
+            if (x2Checkbox.checked) currentReward *= 2;
+    
+            rewardCell.textContent = currentReward + " BP";
+            totalPossibleBP += currentReward;
+    
+            if (cb.checked) {
+                totalBP += currentReward;
+                row.classList.add("done");
+                // Блокируем кнопки, если задание выполнено
+                lotteryButtons.forEach(btn => btn.disabled = true);
+            } else {
+                row.classList.remove("done");
+                // Разблокируем кнопки, если галочка снята
+                lotteryButtons.forEach(btn => btn.disabled = false);
+            }
+        });
+    
+        totalDisplay.textContent = totalBP + " BP";
+        remainingDisplay.textContent = (totalPossibleBP - totalBP) + " BP";
+    
+        const percent = totalPossibleBP > 0 ? Math.round((totalBP / totalPossibleBP) * 100) : 0;
+        progressFill.style.width = percent + "%";
+        progressPercent.textContent = percent + "%";
+    
+        if (typeof saveAllData === "function") saveAllData(); 
+    }
 
-  resetBtn.addEventListener("click", () => {
-    getCheckboxes().forEach((cb) => {
-      if (cb.checked) {
-        cb.checked = false;
-        cb.dispatchEvent(new Event("change")); 
-      }
+    // 5. Логика кнопки перетаскивания
+    if (dragBtn) {
+        dragBtn.addEventListener('click', () => {
+            isDragEnabled = !isDragEnabled;
+            if (sortableInstance) sortableInstance.option("disabled", !isDragEnabled);
+            dragBtn.classList.toggle('active', isDragEnabled);
+            document.body.classList.toggle('drag-mode-on', isDragEnabled);
+            if (dragIcon) {
+                dragIcon.classList.toggle('fi-rr-edit', !isDragEnabled);
+                dragIcon.classList.toggle('fi-rr-padlock-check', isDragEnabled);
+            }
+        });
+    }
+
+    // 6. Обработка кликов и лотереи
+    document.addEventListener("click", (e) => {
+        const btn = e.target.closest(".arrow-btn");
+        if (btn) {
+            const control = btn.closest(".lottery-controls");
+            const display = control.querySelector(".quantity-display");
+            const target = parseInt(control.getAttribute("data-target"));
+            const cb = control.closest("tr").querySelector(".task-checkbox");
+            let val = parseInt(display.textContent);
+
+            if (btn.classList.contains("up-arrow") && val < target) val++;
+            else if (btn.classList.contains("down-arrow") && val > 0) val--;
+            
+            display.textContent = val;
+            cb.checked = (val === target);
+            updateProgress();
+        }
     });
-  });
 
-  const setTheme = (theme) => {
-    document.documentElement.setAttribute("data-theme", theme);
-    localStorage.setItem("theme", theme);
-    themeToggle.textContent = theme === "dark" ? "☀️" : "🌙";
-  };
+    document.addEventListener("change", (e) => {
+        if (e.target.classList.contains("task-checkbox")) {
+            // НОВОЕ: Если галочку сняли вручную
+            if (!e.target.checked) {
+                const row = e.target.closest("tr");
+                const quantityDisplay = row.querySelector(".quantity-display");
+                
+                // Если в этой строке есть счетчик (лотерея и т.д.), сбрасываем его на 0
+                if (quantityDisplay) {
+                    quantityDisplay.textContent = "0";
+                }
+            }
+            updateProgress();
+        } else if (e.target === vipCheckbox || e.target === x2Checkbox) {
+            updateProgress();
+        }
+    });
 
-  themeToggle.addEventListener("click", () => {
-    const isDark = document.documentElement.getAttribute("data-theme") === "dark";
-    setTheme(isDark ? "light" : "dark");
-  });
+    // 7. Тема и Сброс
+    themeBtn.addEventListener("click", () => {
+        const body = document.body;
+        const newTheme = body.getAttribute("data-theme") === "dark" ? "light" : "dark";
+        body.setAttribute("data-theme", newTheme);
+        themeBtn.innerHTML = newTheme === "dark" ? '<i class="fi fi-br-sun"></i>' : '<i class="fi fi-br-eclipse-alt"></i>';
+        saveAllData();
+    });
 
-  // Установим темную тему по умолчанию, так как скрины в ней
-  setTheme(localStorage.getItem("theme") || "dark");
-  updateDisplay();
+    resetBtn.addEventListener("click", () => {
+        if (confirm("Сбросить весь прогресс?")) {
+            document.querySelectorAll(".task-checkbox").forEach(cb => cb.checked = false);
+            document.querySelectorAll(".quantity-display").forEach(d => d.textContent = "0");
+            updateProgress();
+        }
+    });
+
+    // Инициализация
+    loadAllData();
 });
