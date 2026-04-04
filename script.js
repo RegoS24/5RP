@@ -1,13 +1,12 @@
 document.addEventListener("DOMContentLoaded", function () {
-    // 1. Элементы управления и отображения
+    // 1. Элементы управления
     const vipCheckbox = document.getElementById("vipCheckbox");
     const x2Checkbox = document.getElementById("x2Checkbox");
     const themeBtn = document.getElementById("themeToggle");
     const resetBtn = document.getElementById("resetBtn");
-    const dragToggle = document.getElementById('dragToggle');
-    const taskBody = document.getElementById("taskBody");
-    const dragBtn = document.getElementById("dragToggle");
+    const dragBtn = document.getElementById("dragToggle"); // Объединил dragToggle и dragBtn
     const dragIcon = document.getElementById("dragIcon");
+    const taskBody = document.getElementById("taskBody");
     
     const totalDisplay = document.getElementById("totalDisplay");
     const remainingDisplay = document.getElementById("remainingDisplay");
@@ -17,43 +16,50 @@ document.addEventListener("DOMContentLoaded", function () {
     let isDragEnabled = false;
     let sortableInstance;
 
-    // 1. Переключение режима
-    dragToggle.addEventListener('click', () => {
-    const isEditing = document.body.classList.toggle('drag-mode-on');
-    
-    // Включаем/выключаем сам Sortable
-    sortableInstance.option("disabled", !isEditing);
-    });
-
+    // 2. Инициализация SortableJS
     if (taskBody && typeof Sortable !== 'undefined') {
         sortableInstance = new Sortable(taskBody, {
             animation: 250,
             handle: '.drag-handle', 
             forceFallback: true,
-            fallbackOnBody: false, // Удерживает клон внутри родителя
             fallbackClass: "sortable-drag",
-            disabled: true, // Включается программно через drag-mode-on
-            
+            disabled: true, 
             scroll: true,
-            scrollSensitivity: 150, // Начнет скроллить за 150px до края
-            scrollSpeed: 20,        // 10 может быть медленновато, 20 — оптимально
-            bubbleScroll: true,     // ОБЯЗАТЕЛЬНО true, чтобы скроллился body/window
-    
+            scrollSensitivity: 150,
+            scrollSpeed: 20,
+            bubbleScroll: true,
             ghostClass: 'sortable-ghost',
-            dragClass: 'sortable-drag',
-            
-            onStart: () => {
-                document.body.classList.add('is-dragging');
-            },
+            onStart: () => document.body.classList.add('is-dragging'),
             onEnd: () => {
                 document.body.classList.remove('is-dragging');
-                saveAllData(); // Сохраняем порядок
+                saveAllData(); 
             }
         });
     }
-    
 
-    // 3. Функции LocalStorage
+    // 3. Логика режима редактирования (Перетаскивания)
+    if (dragBtn) {
+        dragBtn.addEventListener('click', () => {
+            isDragEnabled = !isDragEnabled;
+            
+            // Визуальное состояние
+            dragBtn.classList.toggle('active', isDragEnabled);
+            document.body.classList.toggle('drag-mode-on', isDragEnabled);
+            
+            // Управление Sortable
+            if (sortableInstance) {
+                sortableInstance.option("disabled", !isDragEnabled);
+            }
+            
+            // Смена иконки (edit <-> padlock)
+            if (dragIcon) {
+                dragIcon.classList.toggle('fi-rr-edit', !isDragEnabled);
+                dragIcon.classList.toggle('fi-rr-padlock-check', isDragEnabled);
+            }
+        });
+    }
+
+    // 4. Функции LocalStorage
     function saveAllData() {
         const data = {
             tasks: [],
@@ -86,14 +92,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
         const data = JSON.parse(saved);
 
-        // Восстанавливаем настройки
         vipCheckbox.checked = data.settings.vip;
         x2Checkbox.checked = data.settings.x2;
         document.body.setAttribute("data-theme", data.settings.theme);
         themeBtn.innerHTML = data.settings.theme === "dark" ? '<i class="fi fi-br-sun"></i>' : '<i class="fi fi-br-eclipse-alt"></i>';
 
-        // Восстанавливаем порядок
         const rows = Array.from(taskBody.querySelectorAll("tr"));
+        taskBody.innerHTML = ""; // Очищаем для восстановления порядка
+        
         data.order.forEach(taskId => {
             const row = rows.find(r => r.querySelector(".left-cell").textContent === taskId);
             if (row) {
@@ -108,7 +114,7 @@ document.addEventListener("DOMContentLoaded", function () {
         updateProgress();
     }
 
-    // 4. Функция расчета прогресса
+    // 5. Расчет прогресса
     function updateProgress() {
         let totalBP = 0;
         let totalPossibleBP = 0;
@@ -117,9 +123,8 @@ document.addEventListener("DOMContentLoaded", function () {
         allRows.forEach(row => {
             const cb = row.querySelector(".task-checkbox");
             const rewardCell = row.querySelector(".reward");
-            const quantityDisplay = row.querySelector(".quantity-display");
-            const lotteryButtons = row.querySelectorAll(".arrow-btn"); // Находим кнопки управления
-    
+            const lotteryButtons = row.querySelectorAll(".arrow-btn");
+
             if (!cb || !rewardCell) return;
     
             const baseValue = parseInt(rewardCell.getAttribute("data-without")) || 0;
@@ -134,11 +139,9 @@ document.addEventListener("DOMContentLoaded", function () {
             if (cb.checked) {
                 totalBP += currentReward;
                 row.classList.add("done");
-                // Блокируем кнопки, если задание выполнено
                 lotteryButtons.forEach(btn => btn.disabled = true);
             } else {
                 row.classList.remove("done");
-                // Разблокируем кнопки, если галочка снята
                 lotteryButtons.forEach(btn => btn.disabled = false);
             }
         });
@@ -150,37 +153,10 @@ document.addEventListener("DOMContentLoaded", function () {
         progressFill.style.width = percent + "%";
         progressPercent.textContent = percent + "%";
     
-        if (typeof saveAllData === "function") saveAllData(); 
+        saveAllData(); 
     }
 
-    // 5. Логика кнопки перетаскивания
-    // 5. Логика режима редактирования (Перетаскивания)
-    if (dragBtn) {
-        dragBtn.addEventListener('click', () => {
-            // 1. Переключаем состояние
-            isDragEnabled = !isDragEnabled;
-            
-            // 2. Переключаем классы визуализации
-            dragBtn.classList.toggle('active', isDragEnabled);
-            document.body.classList.toggle('drag-mode-on', isDragEnabled);
-            
-            // 3. Включаем/выключаем SortableJS
-            if (sortableInstance) {
-                sortableInstance.option("disabled", !isDragEnabled);
-            }
-            
-            // 4. Меняем иконку
-            if (dragIcon) {
-                if (isDragEnabled) {
-                    dragIcon.classList.replace('fi-rr-edit', 'fi-rr-padlock-check');
-                } else {
-                    dragIcon.classList.replace('fi-rr-padlock-check', 'fi-rr-edit');
-                }
-            }
-        });
-    }
-
-    // 6. Обработка кликов и лотереи
+    // 6. Обработка событий (Делегирование)
     document.addEventListener("click", (e) => {
         const btn = e.target.closest(".arrow-btn");
         if (btn) {
@@ -201,15 +177,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
     document.addEventListener("change", (e) => {
         if (e.target.classList.contains("task-checkbox")) {
-            // НОВОЕ: Если галочку сняли вручную
             if (!e.target.checked) {
                 const row = e.target.closest("tr");
-                const quantityDisplay = row.querySelector(".quantity-display");
-                
-                // Если в этой строке есть счетчик (лотерея и т.д.), сбрасываем его на 0
-                if (quantityDisplay) {
-                    quantityDisplay.textContent = "0";
-                }
+                const qty = row.querySelector(".quantity-display");
+                if (qty) qty.textContent = "0";
             }
             updateProgress();
         } else if (e.target === vipCheckbox || e.target === x2Checkbox) {
@@ -217,7 +188,6 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-    // 7. Тема и Сброс
     themeBtn.addEventListener("click", () => {
         const body = document.body;
         const newTheme = body.getAttribute("data-theme") === "dark" ? "light" : "dark";
@@ -226,14 +196,38 @@ document.addEventListener("DOMContentLoaded", function () {
         saveAllData();
     });
 
+    // Элементы модального окна
+    const resetModal = document.getElementById("resetModal");
+    const confirmReset = document.getElementById("confirmReset");
+    const cancelReset = document.getElementById("cancelReset");
+    
+    // Открытие модалки при клике на Reset
     resetBtn.addEventListener("click", () => {
-        if (confirm("Сбросить весь прогресс?")) {
-            document.querySelectorAll(".task-checkbox").forEach(cb => cb.checked = false);
-            document.querySelectorAll(".quantity-display").forEach(d => d.textContent = "0");
-            updateProgress();
+        resetModal.style.display = "flex";
+    });
+    
+    // Кнопка "Отмена"
+    cancelReset.addEventListener("click", () => {
+        resetModal.style.display = "none";
+    });
+    
+    // Кнопка "Сбросить"
+    confirmReset.addEventListener("click", () => {
+        // Твоя логика сброса
+        document.querySelectorAll(".task-checkbox").forEach(cb => cb.checked = false);
+        document.querySelectorAll(".quantity-display").forEach(d => d.textContent = "0");
+        
+        updateProgress(); // Обновляем прогресс и сохраняем
+        
+        resetModal.style.display = "none"; // Закрываем окно
+    });
+    
+    // Закрытие при клике на фон
+    window.addEventListener("click", (e) => {
+        if (e.target === resetModal) {
+            resetModal.style.display = "none";
         }
     });
 
-    // Инициализация
     loadAllData();
 });

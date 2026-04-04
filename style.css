@@ -200,9 +200,9 @@ input[type="checkbox"]:checked + .x2checkmark {
 .left-cell {
   width: auto;
   text-align: left;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
+  overflow: hidden !important;
+  white-space: nowrap !important;
+  text-overflow: ellipsis !important;
   font-size: 14px;
   font-weight: 600;
   padding: 0 10px;
@@ -508,6 +508,12 @@ body.drag-mode-on .drag-handle {
     display: inline-block !important;
 }
 
+body.drag-mode-on .custom-checkbox,
+body.drag-mode-on .reward,
+body.drag-mode-on .lottery-cell {
+    display: none !important;
+}
+
 /* 3. Скрываем чекбокс, чтобы он не мешал кнопке */
 body.drag-mode-on .custom-checkbox {
     display: none !important;
@@ -590,4 +596,71 @@ body.drag-mode-on .sortable-drag td.checkbox-cell {
 body.drag-mode-on .sortable-drag td {
   width: 480px !important;
   display: table-cell !important;
+}
+
+/* --- ТАБЛИЧКА СБРОСА --- */
+
+.modal-overlay {
+  display: none; /* Скрыто по умолчанию */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  z-index: 1000;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background: var(--table-border);
+  padding: 24px;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 320px;
+  text-align: center;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+  color: var(--button-text);
+}
+
+.modal-content h3 {
+  margin-bottom: 12px;
+}
+
+.modal-content p {
+  font-size: 12px;
+  margin-bottom: 20px;
+  opacity: 0.8;
+}
+
+.modal-buttons {
+  display: flex;
+  gap: 12px;
+}
+
+.modal-btn {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  font-family: inherit;
+  transition: transform 0.1s;
+}
+
+.modal-btn:active {
+  transform: scale(0.95);
+}
+
+.btn-secondary {
+  background: #e0e0e0;
+  color: #1b1c20;
+}
+
+.btn-danger {
+  background: #a50000;
+  color: var(--progress-text);
 }
