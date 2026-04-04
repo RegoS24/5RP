@@ -54,7 +54,7 @@
 body {
   max-width: 480px;
   margin: 0 auto;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 700;
   font-family: Arial, sans-serif;
   background-color: var(--bg-color);
@@ -93,7 +93,7 @@ body {
 }
 
 #totalDisplay, #remainingDisplay {
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 700;
   color: var(--checkbox-checked);
 }
@@ -132,7 +132,7 @@ body {
   align-items: center;
   justify-content: center;
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 500;
   color: var(--progress-text) !important;
   z-index: 10;
   pointer-events: none;
