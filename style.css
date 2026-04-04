@@ -12,7 +12,7 @@
 
 :root {
   --checkbox-size: 32px;
-  --lottery-quantity-min-width: 18px;
+  --lottery-quantity-min-width: 20px;
   --lottery-btn-size: 26px;
   --bg-color: #737373;
   --text-arrow: #f3f3f3;
@@ -346,7 +346,7 @@ input[type="checkbox"]:checked + .x2checkmark {
   align-items: center;
   justify-content: center;
   font-size: 12px;
-  gap: 1px;
+  gap: 3px;
 }
 
 .lottery-wrapper {
