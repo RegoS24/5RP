@@ -13,7 +13,7 @@
 :root {
   --checkbox-size: 32px;
   --lottery-quantity-min-width: 18px;
-  --lottery-btn-size: 28px;
+  --lottery-btn-size: 26px;
   --bg-color: #737373;
   --text-arrow: #f3f3f3;
   --text-color: #ffffff;
@@ -192,13 +192,13 @@ input[type="checkbox"]:checked + .x2checkmark {
 }
 
 /* Пропорции колонок */
-.left-cell     { width: 45%; text-align: left; }
-.lottery-cell  { width: 35%; }
-.reward        { width: 15%; text-align: center; }
+.left-cell     { width: 50%; text-align: left; }
+.lottery-cell  { width: 20%; }
+.reward        { width: 10%; text-align: center; }
 .checkbox-cell { width: 20%; min-width: 50px; text-align: center; }
 
 .left-cell {
-  width: auto;
+  width: 200px;
   text-align: left;
   overflow: hidden !important;
   white-space: nowrap !important;
@@ -221,8 +221,8 @@ input[type="checkbox"]:checked + .x2checkmark {
   background-color: var(--table-bgd) !important;
 }
 
-.sortable-drag .checkbox-cell {
-  width: 60px !important;
+.sortable-drag {
+  width: 40px !important;
   display: table-cell !important;
 }
 
@@ -236,12 +236,12 @@ input[type="checkbox"]:checked + .x2checkmark {
 }
 
 .reward {
-  width: 60px; 
+  width: 45px;
   text-align: center;
+  justify-content: center;
   font-variant-numeric: tabular-nums;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 600;
-  padding: 0 0 0 10px;
 }
 
 /* 7. ИСПРАВЛЕННЫЙ НИЖНИЙ БАР (ФИКСИРОВАННЫЙ) */
@@ -323,8 +323,8 @@ input[type="checkbox"]:checked + .x2checkmark {
 }
 
 .checkbox-cell {
-  width: 60px;
-  min-width: 60px;
+  width: 50px;
+  min-width: 50px;
   text-align: center;
   min-width: 60px; 
 }
@@ -334,11 +334,10 @@ input[type="checkbox"]:checked + .x2checkmark {
   align-items: center;
   justify-content: center;
   margin: 0 auto;
-  padding: 0 10px;
 }
 
 .lottery-cell {
-  width: 120px;
+  width: 100px;
   text-align: center;
 }
 
@@ -346,8 +345,8 @@ input[type="checkbox"]:checked + .x2checkmark {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 14px;
-  gap: 5px;
+  font-size: 12px;
+  gap: 1px;
 }
 
 .lottery-wrapper {
@@ -383,12 +382,12 @@ input[type="checkbox"]:checked + .x2checkmark {
 }
 
 .quantity-display {
-  width: 20px;
+  width: 18px;
   color: var(--quantity-display);
 }
 
 .data-target {
-  width: 25px;
+  width: 22px;
 }
 
 .done .left-cell, 
@@ -497,7 +496,7 @@ body.is-dragging * {
 .drag-handle {
     display: none; 
     cursor: grab;
-    font-size: 20px;
+    font-size: 24px;
     padding: 5px;
     line-height: 1;
     color: var(--checkbox-checked); /* или любой заметный цвет */
@@ -527,8 +526,8 @@ body.drag-mode-on .lottery-cell {
 
 body.drag-mode-on .checkbox-cell {
   display: table-cell !important; /* Гарантируем видимость ячейки */
-  width: 60px !important;
-  max-width: 60px !important;
+  width: 50px !important;
+  max-width: 50px !important;
   text-align: center;
   vertical-align: middle; /* Центровка по вертикали */
 }
@@ -589,7 +588,7 @@ body.drag-mode-on .sortable-drag td.left-cell {
 }
 
 body.drag-mode-on .sortable-drag td.checkbox-cell {
-  width: 60px !important;
+  width: 50px !important;
   display: table-cell !important;
 }
 
