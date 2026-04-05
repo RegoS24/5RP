@@ -124,10 +124,14 @@ document.addEventListener("DOMContentLoaded", function () {
         const allRows = document.querySelectorAll("#taskBody tr");
     
         allRows.forEach(row => {
+            if (row.classList.contains("row-hidden")) {
+                return; 
+            }
+    
             const cb = row.querySelector(".task-checkbox");
             const rewardCell = row.querySelector(".reward");
             const lotteryButtons = row.querySelectorAll(".arrow-btn");
-
+    
             if (!cb || !rewardCell) return;
     
             const baseValue = parseInt(rewardCell.getAttribute("data-without")) || 0;
@@ -253,6 +257,8 @@ document.addEventListener("DOMContentLoaded", function () {
     
         // Сохраняем изменения (если у вас реализована saveAllData)
         if (typeof saveAllData === "function") saveAllData();
+
+        updateProgress(); 
     });
 
     loadAllData();
