@@ -93,7 +93,7 @@ body {
 }
 
 .header-right {
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 700;
   display: flex;
   justify-content: space-between;
@@ -197,7 +197,7 @@ input[type="checkbox"]:checked + .x2checkmark {
   overflow: hidden !important;
   white-space: nowrap !important;
   text-overflow: ellipsis !important;
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 600;
   padding: 0 15px;
   cursor: default;
@@ -214,7 +214,7 @@ input[type="checkbox"]:checked + .x2checkmark {
 .reward {
   justify-content: center;
   font-variant-numeric: tabular-nums;
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 600;
   padding: 0 8px 0 0;
 }
@@ -341,13 +341,13 @@ input[type="checkbox"]:checked + .x2checkmark {
 
 .quantity-display {
   width: 14px;
-  font-size: 10px;
+  font-size: 12px;
   color: var(--quantity-display);
 }
 
 .data-target {
-  width: 18px;
-  font-size: 10px;
+  width: 20px;
+  font-size: 12px;
   color: var(--quantity-display);
 }
 
@@ -369,8 +369,8 @@ input[type="checkbox"]:checked + .x2checkmark {
 .fi.fi-rr-edit,
 #dragIcon.fi.fi-rr-padlock-check,
 .fi.fi-rr-eye,
-.fi.fi-br-caret-down,
-.fi.fi-rr-caret-up
+.fi.fi-br-angle-down,
+.fi.fi-br-angle-up
  {
   display: flex;
   align-items: center;
