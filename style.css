@@ -368,11 +368,18 @@ input[type="checkbox"]:checked + .x2checkmark {
 .fi.fi-br-sun,
 .fi.fi-rr-edit,
 #dragIcon.fi.fi-rr-padlock-check,
-.fi.fi-rr-eye
+.fi.fi-rr-eye,
+.fi.fi-br-caret-down,
+.fi.fi-rr-caret-up
  {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.fi.fi-br-caret-down::before,
+.fi.fi-rr-caret-up::before {
+  font-size: 22px;
 }
 
 .icon-btn {
