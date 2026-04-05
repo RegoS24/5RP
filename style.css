@@ -189,7 +189,7 @@ input[type="checkbox"]:checked + .x2checkmark {
 }
 
 .left-cell     { width: 50%; text-align: left; }
-.lottery-cell  { width: 30%; }
+.lottery-cell  { width: 35%; }
 .reward        { width: 15%; text-align: right; }
 .checkbox-cell { width: 10%; text-align: center; }
 
@@ -296,7 +296,6 @@ input[type="checkbox"]:checked + .x2checkmark {
 
 .lottery-cell {
   text-align: center;
-  padding: 0 8px 0 0;
 }
 
 .lottery-controls {
