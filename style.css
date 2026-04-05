@@ -325,7 +325,7 @@ input[type="checkbox"]:checked + .x2checkmark {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 11px;
+  font-size: 16px;
   line-height: 1
 }
 
