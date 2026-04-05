@@ -19,10 +19,13 @@ document.addEventListener("DOMContentLoaded", function () {
     // 2. Инициализация SortableJS
     if (taskBody && typeof Sortable !== 'undefined') {
         sortableInstance = new Sortable(taskBody, {
-            animation: 250,
+            animation: 150,
             handle: '.drag-handle', 
             forceFallback: true,
+            swapThreshold: 0.5,
+            invertSwap: true,
             fallbackClass: "sortable-drag",
+            fallbackOnBody: true,
             disabled: true, 
             scroll: true,
             scrollSensitivity: 150,
@@ -229,5 +232,29 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
+    // Логика кнопки скрытия внутри строки
+    taskBody.addEventListener('click', function(e) {
+        // Ищем нажатие на кнопку или иконку внутри неё
+        const btn = e.target.closest('.hide-row-btn');
+        if (!btn) return;
+    
+        const row = btn.closest('tr');
+        const icon = btn.querySelector('i');
+    
+        // Переключаем класс скрытия
+        row.classList.toggle('row-hidden');
+    
+        // Меняем иконку
+        if (row.classList.contains('row-hidden')) {
+            icon.classList.replace('fi-rr-eye', 'fi-rr-eye-crossed');
+        } else {
+            icon.classList.replace('fi-rr-eye-crossed', 'fi-rr-eye');
+        }
+    
+        // Сохраняем изменения (если у вас реализована saveAllData)
+        if (typeof saveAllData === "function") saveAllData();
+    });
+
     loadAllData();
+
 });
